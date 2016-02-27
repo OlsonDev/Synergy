@@ -2,9 +2,20 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
+		<title>Synergy</title>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"/>
 		<link type="text/css" rel="stylesheet" href="/styles.css"/>
 	</head>
 	<body>
-		<h1>Synergy</h1>
+		<header id="titlebar">
+			<h1>Synergy</h1>
+			<section id="titlebar-buttons">
+				<button type="button" tabindex="-1" id="btn-minimize" title="Minimize"></button>
+				<button type="button" tabindex="-1" id="btn-maximize" title="Maximize"></button>
+				<button type="button" tabindex="-1" id="btn-restore" title="Restore"></button>
+				<button type="button" tabindex="-1" id="btn-close" title="Close"></button>
+			</section>
+		</header>
+		<script src="/boot.js"></script>
 	</body>
 </html>

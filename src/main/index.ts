@@ -17,8 +17,7 @@ class Main {
 				, minWidth: 1280
 				, minHeight: 720
 				, backgroundColor: '#000'
-				// TODO: Custom UI
-				//, frame: false
+				, frame: false
 			});
 
 			mainWindow.loadURL('http://192.168.1.2:3000/views/index.html');
