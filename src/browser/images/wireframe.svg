@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080" width="1920" height="1080">
+	<defs>
+		<g id="bulletpoint" transform="translate(12,0)">
+			<path fill="rgba(0,0,0,0.8)" stroke="none" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z"/>
+			<rect fill="rgba(0,0,0,0.8)" stroke="none" x="30" y="0" width="174" height="24"/>
+		</g>
+
+		<g id="unit">
+			<rect width="230" height="470" stroke-width="10" fill="inherit" stroke="inherit"/>
+			<path fill="rgba(0,0,0,0.85)" stroke="#000" transform="translate(-5, -15) scale(10)" d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+
+			<path fill="rgba(0,0,0,0.8)" stroke="none" transform="translate(25,200) scale(3)" d="M12,12H19C18.47,16.11 15.72,19.78 12,20.92V12H5V6.3L12,3.19M12,1L3,5V11C3,16.55 6.84,21.73 12,23C17.16,21.73 21,16.55 21,11V5L12,1Z"/>
+			<path fill="rgba(0,0,0,0.8)" stroke="none" transform="translate(135,200) scale(3)" d="M7.5,4A5.5,5.5 0 0,0 2,9.5C2,10 2.09,10.5 2.22,11H6.3L7.57,7.63C7.87,6.83 9.05,6.75 9.43,7.63L11.5,13L12.09,11.58C12.22,11.25 12.57,11 13,11H21.78C21.91,10.5 22,10 22,9.5A5.5,5.5 0 0,0 16.5,4C14.64,4 13,4.93 12,6.34C11,4.93 9.36,4 7.5,4V4M3,12.5A1,1 0 0,0 2,13.5A1,1 0 0,0 3,14.5H5.44L11,20C12,20.9 12,20.9 13,20L18.56,14.5H21A1,1 0 0,0 22,13.5A1,1 0 0,0 21,12.5H13.4L12.47,14.8C12.07,15.81 10.92,15.67 10.55,14.83L8.5,9.5L7.54,11.83C7.39,12.21 7.05,12.5 6.6,12.5H3Z"/>
+			<path fill="rgba(0,0,0,0.8)" stroke="none" transform="translate(25,280) scale(3)" d="M6.92,5H5L14,14L15,13.06M19.96,19.12L19.12,19.96C18.73,20.35 18.1,20.35 17.71,19.96L14.59,16.84L11.91,19.5L10.5,18.09L11.92,16.67L3,7.75V3H7.75L16.67,11.92L18.09,10.5L19.5,11.91L16.83,14.58L19.95,17.7C20.35,18.1 20.35,18.73 19.96,19.12Z"/>
+			<path fill="rgba(0,0,0,0.8)" stroke="none" transform="translate(135,280) scale(3)" d="M7.5,5.6L5,7L6.4,4.5L5,2L7.5,3.4L10,2L8.6,4.5L10,7L7.5,5.6M19.5,15.4L22,14L20.6,16.5L22,19L19.5,17.6L17,19L18.4,16.5L17,14L19.5,15.4M22,2L20.6,4.5L22,7L19.5,5.6L17,7L18.4,4.5L17,2L19.5,3.4L22,2M13.34,12.78L15.78,10.34L13.66,8.22L11.22,10.66L13.34,12.78M14.37,7.29L16.71,9.63C17.1,10 17.1,10.65 16.71,11.04L5.04,22.71C4.65,23.1 4,23.1 3.63,22.71L1.29,20.37C0.9,20 0.9,19.35 1.29,18.96L12.96,7.29C13.35,6.9 14,6.9 14.37,7.29Z" />
+
+			<use xlink:href="#bulletpoint" transform="translate(0,363)"/>
+			<use xlink:href="#bulletpoint" transform="translate(0,397)"/>
+			<use xlink:href="#bulletpoint" transform="translate(0,431)"/>
+		</g>
+
+		<g id="units">
+			<use xlink:href="#unit" fill="#F44336" stroke="#D32F2F" x="5" y="5"/>
+			<use xlink:href="#unit" fill="#4CAF50" stroke="#388E3C" x="245" y="5"/>
+			<use xlink:href="#unit" fill="#2196F3" stroke="#1976D2" x="5" y="485"/>
+			<use xlink:href="#unit" fill="#FFC107" stroke="#FFA000" x="245" y="485"/>
+		</g>
+
+		<rect id="sq" fill="#FFF" stroke="#DDD" stroke-width="10" width="110" height="110"/>
+		<rect id="sq-alt" fill="#222" stroke="#000" stroke-width="10" width="110" height="110"/>
+		<g id="row" transform="translate(5,5)">
+			<use xlink:href="#sq" x="0"/>
+			<use xlink:href="#sq" x="240"/>
+			<use xlink:href="#sq" x="480"/>
+			<use xlink:href="#sq" x="720"/>
+			<use xlink:href="#sq-alt" x="120"/>
+			<use xlink:href="#sq-alt" x="360"/>
+			<use xlink:href="#sq-alt" x="600"/>
+			<use xlink:href="#sq-alt" x="840"/>
+		</g>
+		<g id="row-alt">
+			<use xlink:href="#row" transform="scale(-1,1) translate(-960,0)"/>
+		</g>
+
+		<radialGradient id="MyGradient" rx="35" ry="20">
+			<stop offset="0" stop-color="rgba(64,64,64,0.0)"/>
+			<stop offset="0.5" stop-color="rgba(64,64,64,0.0)"/>
+			<stop offset="0.98" stop-color="rgba(64,64,64,0.5)"/>
+			<stop offset="1" stop-color="rgba(64,64,64,0.8)"/>
+		</radialGradient>
+
+		<circle id="orb-circle" r="50" fill="inherit" cx="0" cy="0"/>
+
+		<mask id="bottom-glow-mask">
+			<rect width="100%" height="100%" fill="#000"/>
+			<use xlink:href="#orb-circle" fill="#fff"/>
+			<ellipse cy="-10" rx="55" ry="50" fill="#000"/>
+		</mask>
+
+		<filter id="blur" x="0" y="0">
+			<feGaussianBlur in="SourceGraphic" stdDeviation="0.5"/>
+		</filter>
+
+		<g id="orb">
+			<use xlink:href="#orb-circle"/>
+			<ellipse rx="50" ry="50" fill="url(#MyGradient)" mask="url(#bottom-glow-mask)" transform="rotate(30)"/>
+			<ellipse rx="5" ry="7" fill="rgba(255,255,255,0.7)" transform="rotate(-45) translate(42,0)" filter="url(#blur)"/>
+			<ellipse rx="2" ry="3" fill="rgba(255,255,255,0.6)" transform="rotate(-60) translate(45,0) rotate(-10)" filter="url(#blur)"/>
+		</g>
+	</defs>
+
+	<rect fill="#673AB7" stroke="#512DA8" stroke-width="10" width="1910" height="1070" x="5" y="5"/>
+
+	<g transform="translate(0,80)">
+		<g transform="translate(480,0)">
+			<use xlink:href="#row"/>
+			<use xlink:href="#row" transform="translate(0,240)"/>
+			<use xlink:href="#row" transform="translate(0,480)"/>
+			<use xlink:href="#row" transform="translate(0,720)"/>
+			<use xlink:href="#row-alt" transform="translate(0,120)"/>
+			<use xlink:href="#row-alt" transform="translate(0,360)"/>
+			<use xlink:href="#row-alt" transform="translate(0,600)"/>
+			<use xlink:href="#row-alt" transform="translate(0,840)"/>
+
+			<use xlink:href="#orb" x="60" y="60" fill="#D32F2F"/>
+			<use xlink:href="#orb" x="60" y="180" fill="#FFA000"/>
+			<use xlink:href="#orb" x="60" y="300" fill="#388E3C"/>
+			<use xlink:href="#orb" x="60" y="420" fill="#1976D2"/>
+			<use xlink:href="#orb" x="60" y="540" fill="#512DA8"/>
+			<use xlink:href="#orb" x="60" y="660" fill="#5D4037"/>
+			<use xlink:href="#orb" x="60" y="780" fill="#1976D2"/>
+			<use xlink:href="#orb" x="60" y="900" fill="#512DA8"/>
+
+			<use xlink:href="#orb" x="180" y="60" fill="#D32F2F"/>
+			<use xlink:href="#orb" x="180" y="180" fill="#388E3C"/>
+			<use xlink:href="#orb" x="180" y="300" fill="#512DA8"/>
+			<use xlink:href="#orb" x="180" y="420" fill="#512DA8"/>
+			<use xlink:href="#orb" x="180" y="540" fill="#FFA000"/>
+			<use xlink:href="#orb" x="180" y="660" fill="#1976D2"/>
+			<use xlink:href="#orb" x="180" y="780" fill="#388E3C"/>
+			<use xlink:href="#orb" x="180" y="900" fill="#5D4037"/>
+
+			<use xlink:href="#orb" x="300" y="60" fill="#388E3C"/>
+			<use xlink:href="#orb" x="300" y="180" fill="#FFA000"/>
+			<use xlink:href="#orb" x="300" y="300" fill="#388E3C"/>
+			<use xlink:href="#orb" x="300" y="420" fill="#1976D2"/>
+			<use xlink:href="#orb" x="300" y="540" fill="#FFA000"/>
+			<use xlink:href="#orb" x="300" y="660" fill="#512DA8"/>
+			<use xlink:href="#orb" x="300" y="780" fill="#5D4037"/>
+			<use xlink:href="#orb" x="300" y="900" fill="#D32F2F"/>
+
+			<use xlink:href="#orb" x="420" y="60" fill="#388E3C"/>
+			<use xlink:href="#orb" x="420" y="180" fill="#D32F2F"/>
+			<use xlink:href="#orb" x="420" y="300" fill="#D32F2F"/>
+			<use xlink:href="#orb" x="420" y="420" fill="#5D4037"/>
+			<use xlink:href="#orb" x="420" y="540" fill="#388E3C"/>
+			<use xlink:href="#orb" x="420" y="660" fill="#FFA000"/>
+			<use xlink:href="#orb" x="420" y="780" fill="#5D4037"/>
+			<use xlink:href="#orb" x="420" y="900" fill="#1976D2"/>
+
+			<use xlink:href="#orb" x="540" y="60" fill="#D32F2F"/>
+			<use xlink:href="#orb" x="540" y="180" fill="#FFA000"/>
+			<use xlink:href="#orb" x="540" y="300" fill="#388E3C"/>
+			<use xlink:href="#orb" x="540" y="420" fill="#1976D2"/>
+			<use xlink:href="#orb" x="540" y="540" fill="#512DA8"/>
+			<use xlink:href="#orb" x="540" y="660" fill="#D32F2F"/>
+			<use xlink:href="#orb" x="540" y="780" fill="#FFA000"/>
+			<use xlink:href="#orb" x="540" y="900" fill="#512DA8"/>
+
+			<use xlink:href="#orb" x="660" y="60" fill="#1976D2"/>
+			<use xlink:href="#orb" x="660" y="180" fill="#5D4037"/>
+			<use xlink:href="#orb" x="660" y="300" fill="#388E3C"/>
+			<use xlink:href="#orb" x="660" y="420" fill="#1976D2"/>
+			<use xlink:href="#orb" x="660" y="540" fill="#FFA000"/>
+			<use xlink:href="#orb" x="660" y="660" fill="#512DA8"/>
+			<use xlink:href="#orb" x="660" y="780" fill="#5D4037"/>
+			<use xlink:href="#orb" x="660" y="900" fill="#FFA000"/>
+
+			<use xlink:href="#orb" x="780" y="60" fill="#D32F2F"/>
+			<use xlink:href="#orb" x="780" y="180" fill="#FFA000"/>
+			<use xlink:href="#orb" x="780" y="300" fill="#5D4037"/>
+			<use xlink:href="#orb" x="780" y="420" fill="#D32F2F"/>
+			<use xlink:href="#orb" x="780" y="540" fill="#512DA8"/>
+			<use xlink:href="#orb" x="780" y="660" fill="#5D4037"/>
+			<use xlink:href="#orb" x="780" y="780" fill="#388E3C"/>
+			<use xlink:href="#orb" x="780" y="900" fill="#D32F2F"/>
+
+			<use xlink:href="#orb" x="900" y="60" fill="#1976D2"/>
+			<use xlink:href="#orb" x="900" y="180" fill="#512DA8"/>
+			<use xlink:href="#orb" x="900" y="300" fill="#5D4037"/>
+			<use xlink:href="#orb" x="900" y="420" fill="#1976D2"/>
+			<use xlink:href="#orb" x="900" y="540" fill="#388E3C"/>
+			<use xlink:href="#orb" x="900" y="660" fill="#D32F2F"/>
+			<use xlink:href="#orb" x="900" y="780" fill="#5D4037"/>
+			<use xlink:href="#orb" x="900" y="900" fill="#1976D2"/>
+		</g>
+		<use xlink:href="#units"/>
+		<use xlink:href="#units" x="1440"/>
+	</g>
+</svg>
