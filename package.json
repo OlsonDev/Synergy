@@ -1,0 +1,37 @@
+{
+	"name": "synergy",
+	"version": "0.0.1",
+	"description": "",
+	"main": "dist/main/index.js",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/OlsonDev/Synergy.git"
+	},
+	"bugs": {
+		"url": "https://github.com/OlsonDev/Synergy/issues"
+	},
+	"homepage": "https://github.com/OlsonDev/Synergy#readme",
+	"author": "Josh Olson",
+	"license": "UNLICENSED",
+	"devDependencies": {
+		"browser-sync": "^2.11.1",
+		"concurrently": "^2.0.0",
+		"connect-logger": "0.0.1",
+		"electron-prebuilt": "^0.36.9"
+	},
+	"scripts": {
+		"start": "npm run build && npm run open",
+		"build": "concurrently -p \"[{index}:{name}]\" -n \"main,server,browser,sass\" -c \"bgBlue.bold,bgYellow.bold,bgGreen.bold,bgMagenta.bold\" \"npm run build-main\" \"npm run build-server\" \"npm run build-browser\" \"npm run sass-watch\"",
+		"build-main": "cd src/main && tsc -w",
+		"build-server": "cd src/server && tsc -w",
+		"build-browser": "cd src/browser && tsc -w",
+		"open": "concurrently -p \"[{index}:{name}]\" -n \"sass,server,electron\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"npm run sass-watch\" \"npm run server\" \"npm run electron\"",
+		"sass": "node-sass --indent-type tab --indent-width 1 --linefeed crlf --output-style expanded --precision 10 src/browser/sass/styles.scss -out-file dist/browser/styles.css",
+		"sass-watch": "node-sass -w --indent-type tab --indent-width 1 --linefeed crlf --output-style expanded --precision 10 src/browser/sass/styles.scss -out-file dist/browser/styles.css",
+		"copy": "concurrently -p \"[{index}:{name}]\" -n \"views,images\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\"  \"npm run copy-views\" \"npm run copy-images\"",
+		"copy-views": "xcopy \"src/browser/views\" \"dist/browser/views\" /y /q /i /s",
+		"copy-images": "xcopy \"src/browser/images\" \"dist/browser/images\" /y /q /i /s",
+		"server": "node dist/server/index.js",
+		"electron": "electron ."
+	}
+}

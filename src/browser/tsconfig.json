@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"module": "es2015",
+		"moduleResolution": "node",
+		"target": "es2015",
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"sourceMap": false,
+		"outDir": "../../dist/browser",
+		"removeComments": false
+	},
+	"exclude": [
+		"typings/main.d.ts",
+		"typings/main"
+	]
+}
