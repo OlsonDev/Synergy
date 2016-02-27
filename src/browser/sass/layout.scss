@@ -56,7 +56,8 @@ li {
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
-			background: url('/images/titlebar.png');
+			background: url('/images/titlebar.svg');
+			background-size: 46px 10px;
 		}
 		&:hover {
 			background: rgba(255, 255, 255, 0.1);
