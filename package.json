@@ -13,6 +13,9 @@
 	"homepage": "https://github.com/OlsonDev/Synergy#readme",
 	"author": "Josh Olson",
 	"license": "UNLICENSED",
+	"dependencies": {
+		"keyboardjs": "^2.2.0"
+	},
 	"devDependencies": {
 		"browser-sync": "^2.11.2",
 		"concurrently": "^2.0.0",

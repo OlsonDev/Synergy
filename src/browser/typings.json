@@ -1,6 +1,7 @@
 {
 	"ambientDependencies": {
 		"github-electron": "registry:dt/github-electron#0.36.3+20160319055237",
+		"keyboardjs": "registry:dt/keyboardjs#2.2.0+20160317120654",
 		"node": "registry:dt/node#4.0.0+20160319033040"
 	}
 }

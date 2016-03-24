@@ -1,5 +1,9 @@
 'use strict';
 
+console.log('booting');
+const nodeModules = process.execPath.replace(/node_modules[\\/].*$/, 'node_modules');
+require('module').globalPaths.push(nodeModules);
+
 const electron = require('electron');
 const win = electron.remote.getCurrentWindow();
 window.addEventListener('beforeunload', () => win.removeAllListeners());
@@ -31,3 +35,12 @@ const ctx = canvas.getContext('webgl') as WebGLRenderingContext;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 ctx.viewport(0, 0, ctx.drawingBufferWidth, ctx.drawingBufferHeight);
+
+const kb = require('keyboardjs');
+
+kb.bind('esc', (e) => {
+	document.body.classList.toggle('paused');
+});
+
+
+console.log('booted');
