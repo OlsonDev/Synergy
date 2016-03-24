@@ -1,6 +1,9 @@
 const options = {
 	open: false
 	, files: [ 'dist/browser/**/*.html', 'dist/browser/**/*.css', 'dist/browser/**/*.js' ]
+	, notify: {
+		styles: <string[]>[]
+	}
 	, server: {
 		port: 3000
 		, baseDir: 'dist/browser'
