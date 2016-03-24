@@ -1,6 +1,7 @@
 html {
 	box-sizing: border-box;
 	font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
+	-webkit-user-select: none;
 }
 
 *, *::before, *::after {
@@ -14,15 +15,36 @@ html, body {
 }
 
 body > * {
+	position: fixed;
+}
+
+%frame {
+	z-index: 2;
+	width: 0;
+	height: 0;
+	content: '';
 	position: absolute;
 }
 
-#frame {
-	@extend %absolute-fill;
-	z-index: 1;
-}
 body.paused {
 	#frame {
-		border: 1px solid $window-border-color;
+		@extend %frame;
+		border-left: 1px solid $window-border-color;
+		height: 100vh;
+
+		&::before {
+			@extend %frame;
+			width: calc(100vw - 1px);
+			top: calc(100vh - 1px);
+			border-bottom: 1px solid $window-border-color;
+			box-shadow: 0 calc(-100vh + 1px) 0 $window-border-color;
+		}
+
+		&::after {
+			@extend %frame;
+			height: 100vh;
+			left: calc(100vw - 2px);
+			border-left: 1px solid $window-border-color;
+		}
 	}
 }
