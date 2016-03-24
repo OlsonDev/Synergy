@@ -37,10 +37,31 @@ canvas.height = window.innerHeight;
 ctx.viewport(0, 0, ctx.drawingBufferWidth, ctx.drawingBufferHeight);
 
 const kb = require('keyboardjs');
+kb.bind.keydownOnce = function(keys: string | string[], callback: () => void) {
+	let keyPressed = false;
+	return kb.bind(keys
+		, () => {
+			if (keyPressed) return;
+			keyPressed = true;
+			if (typeof callback === 'function') callback();
+		}
+		, () => keyPressed = false
+	);
+};
 
-kb.bind('esc', (e) => {
+
+kb.bind.keydownOnce(['esc', 'alt'], (e: keyboardjs.KeyEvent) => {
 	document.body.classList.toggle('paused');
 });
 
+kb.bind(['f12'], (e: keyboardjs.KeyEvent) => {
+	console.log('f12');
+	win.webContents.openDevTools();
+});
+
+document.body.addEventListener('click', (e) => {
+	if (e.button != 1) return;
+	win.webContents.inspectElement(e.x, e.y);
+});
 
 console.log('booted');
