@@ -6,7 +6,8 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"/>
 		<link type="text/css" rel="stylesheet" href="/styles.css"/>
 	</head>
-	<body>
+	<body class="loading">
+		<div id="frame"></div>
 		<header id="titlebar">
 			<h1>Synergy</h1>
 			<section id="titlebar-buttons">
@@ -16,6 +17,9 @@
 				<button type="button" tabindex="-1" id="btn-close" title="Close"></button>
 			</section>
 		</header>
+		<div id="game">
+			<canvas id="layer-0"></canvas>
+		</div>
 		<script src="/boot.js"></script>
 	</body>
 </html>

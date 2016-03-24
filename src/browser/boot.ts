@@ -24,3 +24,10 @@ function updateButtons() {
 win.on('unmaximize', updateButtons);
 win.on('maximize', updateButtons);
 updateButtons();
+
+const game = document.getElementById('game') as HTMLDivElement;
+const canvas = document.getElementById('layer-0') as HTMLCanvasElement;
+const ctx = canvas.getContext('webgl') as WebGLRenderingContext;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+ctx.viewport(0, 0, ctx.drawingBufferWidth, ctx.drawingBufferHeight);

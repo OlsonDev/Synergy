@@ -1,7 +1,6 @@
 html {
 	box-sizing: border-box;
 	font-family: RobotoDraft, Roboto, 'Helvetica Neue', sans-serif;
-	border: 1px solid $window-border-color;
 }
 
 *, *::before, *::after {
@@ -14,57 +13,16 @@ html, body {
 	overflow: hidden;
 }
 
-li {
-	display: inline-block;
+body > * {
+	position: absolute;
 }
 
-
-#titlebar {
-	-webkit-app-region: drag;
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	height: $titlebar-height;
-	line-height: $titlebar-height;
-	padding: 0 20px;
-	background: $titlebar-bg-color;
-	color: $titlebar-color;
-	> * {
-		display: inline-block;
-	}
+#frame {
+	@extend %absolute-fill;
+	z-index: 1;
 }
-
-#titlebar-buttons {
-	-webkit-app-region: no-drag;
-	position: absolute;
-	right: 0;
-	height: 100%;
-	> button {
-		width: $titlebar-button-width;
-		height: 100%;
-		border: 0;
-		background: transparent;
-		position: relative;
-		&::before {
-			display: block;
-			content: '';
-			width: 10px;
-			height: 10px;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			background: url('/images/titlebar.svg');
-			background-size: 46px 10px;
-		}
-		&:hover {
-			background: rgba(255, 255, 255, 0.1);
-		}
-		&#btn-maximize::before { background-position-x: -12px; }
-		&#btn-restore::before  { background-position-x: -24px; }
-		&#btn-close::before    { background-position-x: -36px; }
-		&#btn-close:hover      { background: #E81123; }
+body.paused {
+	#frame {
+		border: 1px solid $window-border-color;
 	}
 }
