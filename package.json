@@ -19,7 +19,7 @@
 	},
 	"devDependencies": {
 		"browser-sync": "^2.11.2",
-		"concurrently": "^2.0.0",
+		"concurrently": "OlsonDev/concurrently#master",
 		"connect-logger": "0.0.1",
 		"electron-prebuilt": "^0.37.2"
 	},
