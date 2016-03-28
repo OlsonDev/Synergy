@@ -29,12 +29,12 @@ export class GamePiece extends PIXI.Sprite {
 
 		this.interactive = true;
 		this.on('click', (e: any) => {
-			if (!this.board.firstGamePiece) {
-				this.board.firstGamePiece = this;
+			if (!this.board.selectedGamePiece) {
+				this.board.selectedGamePiece = this;
 				return;
 			}
-			const swapped = this.board.swap(this, this.board.firstGamePiece);
-			this.board.firstGamePiece = null;
+			const swapped = this.board.swap(this, this.board.selectedGamePiece);
+			this.board.selectedGamePiece = null;
 		});
 	}
 

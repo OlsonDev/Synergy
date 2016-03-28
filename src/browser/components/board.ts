@@ -5,7 +5,7 @@ import { GamePiece } from './game-piece';
 export class Board extends PIXI.Container {
 	tiles: BoardTile[][];
 	gamePieces: GamePiece[][];
-	firstGamePiece: GamePiece;
+	selectedGamePiece: GamePiece;
 
 	static numTiles = 8;
 
