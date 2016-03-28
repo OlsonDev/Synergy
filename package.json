@@ -1,7 +1,8 @@
 {
 	"name": "synergy",
 	"version": "0.0.1",
-	"description": "",
+	"description": "Private",
+	"private": true,
 	"main": "dist/main/index.js",
 	"repository": {
 		"type": "git",
@@ -15,7 +16,8 @@
 	"license": "UNLICENSED",
 	"dependencies": {
 		"fs-extra": "^0.26.7",
-		"keyboardjs": "^2.2.0"
+		"keyboardjs": "^2.2.0",
+		"systemjs": "^0.19.24"
 	},
 	"devDependencies": {
 		"browser-sync": "^2.11.2",
@@ -32,9 +34,10 @@
 		"open": "concurrently -p \"[{index}:{name}]\" -n \"sass,server,electron\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\" \"npm run sass-watch\" \"npm run server\" \"npm run electron\"",
 		"sass": "node-sass --indent-type tab --indent-width 1 --linefeed crlf --output-style expanded --precision 10 src/browser/sass/styles.scss -out-file dist/browser/styles.css",
 		"sass-watch": "node-sass -w --indent-type tab --indent-width 1 --linefeed crlf --output-style expanded --precision 10 src/browser/sass/styles.scss -out-file dist/browser/styles.css",
-		"copy": "concurrently -p \"[{index}:{name}]\" -n \"views,images\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\"  \"npm run copy-views\" \"npm run copy-images\"",
+		"copy": "concurrently -p \"[{index}:{name}]\" -n \"views,images,vendor\" -c \"bgBlue.bold,bgMagenta.bold,bgGreen.bold\"  \"npm run copy-views\" \"npm run copy-images\" \"npm run copy-vendor\"",
 		"copy-views": "xcopy \"src/browser/views\" \"dist/browser/views\" /y /q /i /s",
 		"copy-images": "xcopy \"src/browser/images\" \"dist/browser/images\" /y /q /i /s",
+		"copy-vendor": "xcopy \"src/browser/vendor\" \"dist/browser/vendor\" /y /q /i /s",
 		"server": "node dist/server/index.js",
 		"electron": "electron ."
 	}
