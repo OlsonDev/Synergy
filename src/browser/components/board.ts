@@ -19,28 +19,21 @@ export class Board extends PIXI.Container {
 	}
 
 	swap(a: GamePiece, b: GamePiece) {
-		const aBoardPosition = a.boardPosition;
-		const bBoardPosition = b.boardPosition;
+		if (!a.isAdjacentTo(b)) return false;
 
-		a.boardPosition = bBoardPosition;
-		b.boardPosition = aBoardPosition;
-
-		const aPosition = a.position;
-		const bPosition = b.position;
-
-		a.position = bPosition;
-		b.position = aPosition;
-
-		this.gamePieces[aBoardPosition.y][aBoardPosition.x] = b;
-		this.gamePieces[bBoardPosition.y][bBoardPosition.x] = a;
+		[a.boardPosition, b.boardPosition] = [b.boardPosition, a.boardPosition];
+		[a.position, b.position] = [b.position, a.position];
+		this.gamePieces[a.boardPosition.y][a.boardPosition.x] = a;
+		this.gamePieces[b.boardPosition.y][b.boardPosition.x] = b;
+		return true;
 	}
 
 	private createTiles() {
 		this.tiles = [];
-		for (var x = 0; x < Board.numTiles; x++) {
+		for (let y = 0; y < Board.numTiles; y++) {
 			const row = [] as BoardTile[];
 			this.tiles.push(row);
-			for (var y = 0; y < Board.numTiles; y++) {
+			for (let x = 0; x < Board.numTiles; x++) {
 				const tile = new BoardTile(x, y);
 				row.push(tile);
 				this.addChild(tile);
@@ -50,10 +43,10 @@ export class Board extends PIXI.Container {
 
 	private createGamePieces() {
 		this.gamePieces = [];
-		for (var x = 0; x < Board.numTiles; x++) {
+		for (let y = 0; y < Board.numTiles; y++) {
 			const row = [] as GamePiece[];
 			this.gamePieces.push(row);
-			for (var y = 0; y < Board.numTiles; y++) {
+			for (let x = 0; x < Board.numTiles; x++) {
 				const boardPosition = new PIXI.Point(x, y);
 				const gamePiece = new GamePiece(boardPosition);
 				row.push(gamePiece);
