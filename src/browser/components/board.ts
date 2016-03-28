@@ -5,16 +5,34 @@ import { GamePiece } from './game-piece';
 export class Board extends PIXI.Container {
 	tiles: BoardTile[][];
 	gamePieces: GamePiece[][];
+	firstGamePiece: GamePiece;
 
 	static numTiles = 8;
 
 	constructor() {
 		super();
-		this.position.x = 50;
-		this.position.y = 50;
+		this.position.x = (1920 - (110 * Board.numTiles)) / 2;
+		this.position.y = (1080 - (110 * Board.numTiles)) / 2;
 
 		this.createTiles();
 		this.createGamePieces();
+	}
+
+	swap(a: GamePiece, b: GamePiece) {
+		const aBoardPosition = a.boardPosition;
+		const bBoardPosition = b.boardPosition;
+
+		a.boardPosition = bBoardPosition;
+		b.boardPosition = aBoardPosition;
+
+		const aPosition = a.position;
+		const bPosition = b.position;
+
+		a.position = bPosition;
+		b.position = aPosition;
+
+		this.gamePieces[aBoardPosition.y][aBoardPosition.x] = b;
+		this.gamePieces[bBoardPosition.y][bBoardPosition.x] = a;
 	}
 
 	private createTiles() {
@@ -36,7 +54,8 @@ export class Board extends PIXI.Container {
 			const row = [] as GamePiece[];
 			this.gamePieces.push(row);
 			for (var y = 0; y < Board.numTiles; y++) {
-				const gamePiece = new GamePiece(x, y);
+				const boardPosition = new PIXI.Point(x, y);
+				const gamePiece = new GamePiece(boardPosition);
 				row.push(gamePiece);
 				this.addChild(gamePiece);
 			}
