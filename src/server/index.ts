@@ -38,7 +38,7 @@ function copyFile(source: string, target:string, cb: any) {
 	rs.pipe(ws);
 }
 
-const exts = [ 'html', 'css', 'js', 'map' ];
+const exts = [ 'html', 'css', 'js', 'map', 'png', 'svg' ];
 for (let i = 0; i < exts.length; i++) exts[i] = `src/browser/**/*.${exts[i]}`;
 
 bs.watch(exts).on('change', (changedPath: string) => {
