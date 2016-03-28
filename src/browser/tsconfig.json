@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
-		"module": "es2015",
+		"module": "system",
 		"moduleResolution": "node",
 		"target": "es2015",
 		"noImplicitAny": true,

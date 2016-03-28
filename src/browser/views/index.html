@@ -17,9 +17,22 @@
 				<button type="button" tabindex="-1" id="btn-close" title="Close"></button>
 			</section>
 		</header>
-		<div id="game">
-			<canvas id="layer-0"></canvas>
-		</div>
-		<script src="/boot.js"></script>
+		<div id="game"></div>
+		<script src="/node_modules/systemjs/dist/system.src.js"></script>
+		<script>
+			System.config({
+				baseURL: '/node_modules'
+				, map: {
+					'/': '/'
+					, 'pixi.js': '/vendor/pixi/pixi.js'
+				}
+			});
+			System.config({
+				packages: {
+					'/': { defaultExtension: 'js' }
+				}
+			})
+			Promise.all([ System.import('/boot')]).then(null, console.error.bind(console));
+		</script>
 	</body>
 </html>
