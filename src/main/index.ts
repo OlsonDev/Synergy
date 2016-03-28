@@ -22,6 +22,10 @@ class Main {
 				, backgroundColor: '#000'
 				, frame: false
 				, show: false
+				, webPreferences: {
+					experimentalFeatures: true
+					, experimentalCanvasFeatures: true
+				}
 			});
 			this.mainWindow.on('closed', (): any => this.mainWindow = null);
 			this.openWindowWhenServerReady('http://192.168.1.2:3000/views/index.html');
