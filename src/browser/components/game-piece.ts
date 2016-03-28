@@ -19,7 +19,8 @@ export class GamePiece extends PIXI.Sprite {
 		this.width = this.height = 110;
 		this.position.x = boardPosition.x * this.width + 55;
 		this.position.y = boardPosition.y * this.height + 55;
-		this.anchor = new PIXI.Point(0.5, 0.5);
+		this.anchor.x = 0.5;
+		this.anchor.y = 0.5;
 
 		this.interactive = true;
 		this.on('click', (e: any) => {
