@@ -14,14 +14,8 @@ export enum GamePieceType {
 }
 
 export class GamePiece extends PIXI.Sprite {
-	type: GamePieceType;
-	boardPosition: PIXI.Point;
-
-	constructor(boardPosition: PIXI.Point) {
-		const type = GamePiece.GetRandomType();
+	constructor(public boardPosition: PIXI.Point, public type: GamePieceType) {
 		super(PIXI.Texture.fromImage(`/images/game-piece-${GamePieceType[type].toLowerCase()}.svg`));
-		this.type = type;
-		this.boardPosition = boardPosition;
 		this.width = this.height = 110;
 		this.position.x = boardPosition.x * this.width + 55;
 		this.position.y = boardPosition.y * this.height + 55;
@@ -89,7 +83,7 @@ export class GamePiece extends PIXI.Sprite {
 		return index !==  -1;
 	}
 
-	static GetRandomType() : GamePieceType {
-		return getRandomEnum<GamePieceType>(GamePieceType);
+	static GetRandomType(disallowedTypes?: GamePieceType[]) : GamePieceType {
+		return getRandomEnum<GamePieceType>(GamePieceType, disallowedTypes);
 	}
 }
