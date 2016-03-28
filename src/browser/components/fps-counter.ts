@@ -13,10 +13,6 @@ export class FpsCounter extends PIXI.Text {
 		this.position.x = window.innerWidth;
 		this.position.y = window.innerHeight;
 
-		this.on('added', () => {
-			console.log(this.parent.width, this.parent.height);
-		});
-
 		PIXI.ticker.shared.add((time) => {
 			this.text = Math.round(PIXI.ticker.shared.FPS).toString();
 		});

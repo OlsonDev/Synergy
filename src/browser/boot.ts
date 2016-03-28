@@ -1,7 +1,5 @@
 'use strict';
 
-console.log('booting');
-
 import { Cleanup } from './components/misc/cleanup';
 import { Titlebar } from './components/misc/titlebar';
 import { DevTools } from './components/misc/dev-tools';
@@ -27,5 +25,3 @@ stage.addChild(board);
 stage.addChild(fpsCounter);
 
 PIXI.ticker.shared.add((time) => renderer.render(stage));
-
-console.log('booted');
