@@ -16,12 +16,15 @@ export enum GamePieceType {
 
 export interface IGamePiece extends PIXI.Sprite {
 	type: GamePieceType;
+	boardPosition: PIXI.Point;
 	left: IGamePiece;
 	right: IGamePiece;
 	above: IGamePiece;
 	below: IGamePiece;
+	relativePiece(deltaPosition: PIXI.Point) : IGamePiece;
 	adjacents: IGamePiece[];
 	isAdjacentTo(other: IGamePiece): boolean;
+	isOnBoard: boolean;
 }
 
 export class GamePiece extends PIXI.Sprite {
@@ -47,6 +50,8 @@ export class GamePiece extends PIXI.Sprite {
 	get board(): Board {
 		return this.parent as Board;
 	}
+
+	get isOnBoard() { return true; }
 
 	get left(): IGamePiece {
 		const x = this.boardPosition.x - 1;
