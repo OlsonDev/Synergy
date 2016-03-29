@@ -19,7 +19,7 @@ export class MatchData {
 		new PotentialMatch(MoveDirection.Up, [new PIXI.Point(-2, -1), new PIXI.Point(-1, -1)]),
 		new PotentialMatch(MoveDirection.Up, [new PIXI.Point(-1, -1), new PIXI.Point(+1, -1)]),
 		new PotentialMatch(MoveDirection.Up, [new PIXI.Point(+1, -1), new PIXI.Point(+2, -1)]),
-		new PotentialMatch(MoveDirection.Up, [new PIXI.Point( 0, -2), new PIXI.Point( 0, -1)])
+		new PotentialMatch(MoveDirection.Up, [new PIXI.Point( 0, -3), new PIXI.Point( 0, -2)])
 	]);
 	static PotentialMatch4: any; // TODO
 	static PotentialMatch5: any; // TODO
