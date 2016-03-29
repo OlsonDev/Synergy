@@ -16,6 +16,7 @@ export class Board extends PIXI.Container {
 
 		this.createTiles();
 		this.createGamePieces();
+		this.ensureAtLeastOneMove();
 	}
 
 	swap(a: GamePiece, b: GamePiece) {
@@ -52,7 +53,7 @@ export class Board extends PIXI.Container {
 			let leftPiece: GamePiece;
 			for (let x = 0; x < Board.numTiles; x++) {
 				const boardPosition = new PIXI.Point(x, y);
-				const disallowedTypes: GamePieceType[] = [];
+				const disallowedTypes = [ GamePieceType.None ];
 
 				const abovePiece = aboveRow ? aboveRow[x] : null;
 				const aboveAbovePiece = aboveAboveRow ? aboveAboveRow[x] : null;
@@ -77,5 +78,9 @@ export class Board extends PIXI.Container {
 			aboveAboveRow = aboveRow;
 			aboveRow = row;
 		}
+	}
+
+	private ensureAtLeastOneMove() {
+		console.log('TODO: ensureAtLeastOneMove');
 	}
 }
