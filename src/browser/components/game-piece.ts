@@ -76,6 +76,14 @@ export class GamePiece extends PIXI.Sprite {
 		return this.board.gamePieces[y][x];
 	}
 
+	relativePiece(deltaPosition: PIXI.Point) : IGamePiece {
+		const x = this.boardPosition.x + deltaPosition.x;
+		if (x < 0 || x >= Board.numTiles) return NullGamePiece.Instance;
+		const y = this.boardPosition.y + deltaPosition.y;
+		if (y < 0 || y >= Board.numTiles) return NullGamePiece.Instance;
+		return this.board.gamePieces[y][x];
+	}
+
 	get adjacents(): IGamePiece[] {
 		return [ this.left, this.right, this.above, this.below ];
 	}

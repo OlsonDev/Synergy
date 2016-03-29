@@ -1,6 +1,7 @@
 'use strict';
 import { BoardTile } from './board-tile';
 import { GamePiece, GamePieceType } from './game-piece';
+import { MatchData, MoveDirection } from './match-data';
 
 export class Board extends PIXI.Container {
 	tiles: BoardTile[][];
@@ -80,7 +81,29 @@ export class Board extends PIXI.Container {
 		}
 	}
 
+	private moveExists() {
+		let value = false;
+		for (let row of this.gamePieces) {
+			for (let gamePiece of row) {
+				const type = gamePiece.type;
+				for (let pm of MatchData.PotentialMatch3) {
+					let allSameType = true;
+					for (let sgp of pm.SimilarGamePieces) {
+						const relativePiece = gamePiece.relativePiece(sgp);
+						if (type != relativePiece.type) {
+							allSameType = false;
+							break;
+						}
+					}
+					if (allSameType) return true;
+				}
+			}
+		}
+		return value;
+	}
+
 	private ensureAtLeastOneMove() {
-		console.log('TODO: ensureAtLeastOneMove');
+		console.log('TODO: ensureAtLeastOneMove only half done');
+		if (this.moveExists()) return;
 	}
 }
