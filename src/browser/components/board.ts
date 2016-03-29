@@ -102,6 +102,22 @@ export class Board extends PIXI.Container {
 		}
 	}
 
+	private gamePieceIsInPotentialMatch(gamePiece: IGamePiece) {
+		const type = gamePiece.type;
+		for (let pm of MatchData.PotentialMatch3All) {
+			let allSameType = true;
+			for (let sgp of pm.SimilarGamePieces) {
+				const relativePiece = gamePiece.relativePiece(sgp);
+				if (type != relativePiece.type) {
+					allSameType = false;
+					break;
+				}
+			}
+			if (allSameType) return true;
+		}
+		return false;
+	}
+
 	private moveExists() {
 		let value = false;
 		for (let row of this.gamePieces) {
@@ -135,10 +151,10 @@ export class Board extends PIXI.Container {
 	}
 
 	private ensureAtLeastOneMove() {
-		while (!this.moveExists()) {
+		if (this.moveExists()) return;
+		while (true) {
 			let wasSwapped = false;
 			const src = this.getRandomGamePiece();
-			console.log(`Move does not exist!! Selecting piece at {${src.boardPosition.x}, ${src.boardPosition.y}}.`);
 			// Since no moves exist, try to set up a move on the bottom; this will
 			// increase the chances of a cascade and thus the player won't have to
 			// endure watching a rearrange animation shortly into the game.
@@ -149,8 +165,9 @@ export class Board extends PIXI.Container {
 					for (let adjacent of dest.adjacents) {
 						if (!adjacent.isOnBoard) continue;
 						if (!this.canSwapWithoutMatchBeingMade(src, adjacent)) continue;
-						console.log(`Swapping piece at {${src.boardPosition.x}, ${src.boardPosition.y}} with piece at {${adjacent.boardPosition.x}, ${adjacent.boardPosition.y}}.`);
 						this.swap(src, adjacent, true);
+						if (this.gamePieceIsInPotentialMatch(adjacent)) return;
+						if (this.gamePieceIsInPotentialMatch(src)) return;
 						wasSwapped = true;
 						break;
 					}
