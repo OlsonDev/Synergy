@@ -2,7 +2,7 @@
 
 import { NullGamePiece } from './null-game-piece';
 import { Board } from './board';
-import { getRandomEnum } from '../util/EnumHelper';
+import { getRandomEnum } from '../util/enum-helper';
 
 export enum GamePieceType {
 	None,
