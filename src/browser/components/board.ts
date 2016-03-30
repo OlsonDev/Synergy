@@ -21,9 +21,16 @@ export class Board extends PIXI.Container {
 		this.ensureAtLeastOneMove();
 	}
 
-	swap(a: IGamePiece, b: IGamePiece, force = false) {
-		if (!force && !a.isAdjacentTo(b)) return false;
+	private canSwap(a: IGamePiece, b: IGamePiece, force = false) {
+		if (force) return true;
+		if (!a.isAdjacentTo(b)) return false;
+		if (a.type === b.type) return false;
+		if (this.willMakeMatchWhenSwappedWith(a, b)) return true;
+		return this.willMakeMatchWhenSwappedWith(b, a);
+	}
 
+	swap(a: IGamePiece, b: IGamePiece, force = false) {
+		if (!this.canSwap(a, b, force)) return false;
 		[a.boardPosition, b.boardPosition] = [b.boardPosition, a.boardPosition];
 		[a.position, b.position] = [b.position, a.position];
 		this.gamePieces[a.boardPosition.y][a.boardPosition.x] = a;
@@ -32,15 +39,21 @@ export class Board extends PIXI.Container {
 	}
 
 	private canSwapWithoutMatchBeingMade(a: IGamePiece, b: IGamePiece) {
-		return !this.willMakeMatchAt(a.type, b.boardPosition) && !this.willMakeMatchAt(b.type, a.boardPosition);
+		return !this.willMakeMatchWhenSwappedWith(a, b) && !this.willMakeMatchWhenSwappedWith(b, a);
 	}
 
-	private willMakeMatchAt(type: GamePieceType, boardPosition: PIXI.Point) {
-		const dest = this.gamePieces[boardPosition.y][boardPosition.x];
+	private willMakeMatchWhenSwappedWith(src: IGamePiece, dest: IGamePiece) {
+		const type = src.type;
+		const boardPosition = dest.boardPosition;
+
 		for (let matches of MatchData.Match3) {
 			let allSameType = true;
 			for (let similarGamePiece of matches) {
-				const relativePiece = dest.relativePiece(similarGamePiece);
+				let relativePiece = dest.relativePiece(similarGamePiece);
+				if (relativePiece === src) {
+					// pretend the swap happened
+					relativePiece = dest;
+				}
 				if (type != relativePiece.type) {
 					allSameType = false;
 					break;
