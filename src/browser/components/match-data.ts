@@ -40,8 +40,7 @@ export class MatchData {
 		for (let match of matches) {
 			let x: PIXI.Point[] = [];
 			let y: PIXI.Point[] = [];
-			expanded.push(x);
-			expanded.push(y);
+			expanded.push(x, y);
 			for (let delta of match) {
 				x.push(new PIXI.Point(delta, 0));
 				y.push(new PIXI.Point(0, delta));
