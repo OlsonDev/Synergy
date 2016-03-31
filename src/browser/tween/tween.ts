@@ -41,14 +41,14 @@ function parseRecursiveData(to: any, from: any, target: any) {
 }
 
 export class Tween extends PIXI.utils.EventEmitter {
-	active = false;
 	repeat = 0;
 	loop = false;
 	delay = 0;
 	pingPong = false;
-	isStarted = false;
-	isEnded = false;
 
+	private _active = false;
+	private _isStarted = false;
+	private _isEnded = false;
 	private _time = 0;
 	private _easing = Easing.Linear;
 	private _to: any = null;
@@ -71,9 +71,10 @@ export class Tween extends PIXI.utils.EventEmitter {
 		manager.addTween(this);
 	}
 
-	get shouldBeRemoved() {
-		return this.isEnded && this._removeWhenEnded;
-	}
+	get active() { return this._active; }
+	get isStarted() { return this._isStarted; }
+	get isEnded() { return this._isEnded; }
+	get shouldBeRemoved() { return this._isEnded && this._removeWhenEnded; }
 
 	addTo(manager: TweenManager) {
 		this.manager = manager;
@@ -88,12 +89,12 @@ export class Tween extends PIXI.utils.EventEmitter {
 	}
 
 	start() {
-		this.active = true;
+		this._active = true;
 		return this;
 	}
 
 	stop() {
-		this.active = false;
+		this._active = false;
 		this.emit('stop');
 		return this;
 	}
@@ -131,15 +132,15 @@ export class Tween extends PIXI.utils.EventEmitter {
 
 	clear() {
 		this._time = 0;
-		this.active = false;
+		this._active = false;
 		this._easing = Easing.Linear;
 		this._removeWhenEnded = false;
 		this.repeat = 0;
 		this.loop = false;
 		this.delay = 0;
 		this.pingPong = false;
-		this.isStarted = false;
-		this.isEnded = false;
+		this._isStarted = false;
+		this._isEnded = false;
 		this._to = null;
 		this._from = null;
 		this._delayTime = 0;
@@ -157,8 +158,8 @@ export class Tween extends PIXI.utils.EventEmitter {
 		this._elapsedTime = 0;
 		this._repeat = 0;
 		this._delayTime = 0;
-		this.isStarted = false;
-		this.isEnded = false;
+		this._isStarted = false;
+		this._isEnded = false;
 		if (this.pingPong && this._pingPong) {
 			let _to = this._to;
 			let _from = this._from;
@@ -170,17 +171,15 @@ export class Tween extends PIXI.utils.EventEmitter {
 	}
 
 	update(delta: number, deltaMS: number) {
-		if (!this.canUpdate() && (this._to || this.path)) return;
+		if (!this.canUpdate && (this._to || this.path)) return;
 		let _to: any, _from: any;
 		if (this.delay > this._delayTime) {
 			this._delayTime += deltaMS;
 			return;
 		}
 
-		if (!this.isStarted) {
-			this.parseData();
-			this.isStarted = true;
-			this.emit('start');
+		if (!this._isStarted) {
+			this.reallyStart();
 		}
 
 		let time = this.pingPong ? this._time / 2 : this._time;
@@ -237,8 +236,8 @@ export class Tween extends PIXI.utils.EventEmitter {
 					return;
 				}
 
-				this.isEnded = true;
-				this.active = false;
+				this._isEnded = true;
+				this._active = false;
 				this.emit('end');
 
 				if (this._chainTween) {
@@ -250,8 +249,14 @@ export class Tween extends PIXI.utils.EventEmitter {
 		}
 	}
 
+	private reallyStart() {
+		this.parseData();
+		this._isStarted = true;
+		this.emit('start');
+	}
+
 	private parseData() {
-		if (this.isStarted) return;
+		if (this._isStarted) return;
 
 		if (!this._from)this._from = {};
 		parseRecursiveData(this._to, this._from, this.target);
@@ -284,7 +289,7 @@ export class Tween extends PIXI.utils.EventEmitter {
 		}
 	}
 
-	private canUpdate() {
-		return this._time && this.active && this.target;
+	private get canUpdate() {
+		return this._time && this._active && this.target;
 	}
 }
