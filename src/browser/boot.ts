@@ -8,7 +8,7 @@ Cleanup.setup();
 Titlebar.setup();
 DevTools.setup();
 
-import * as PIXI from "pixi.js";
+import * as PIXI from 'pixi.js';
 import { Board } from './components/board';
 import { FpsCounter } from './components/fps-counter';
 
