@@ -38,6 +38,7 @@ export class GamePiece extends PIXI.Sprite {
 
 		this.interactive = true;
 		this.on('click', (e: any) => {
+			if (!this.board.playerCanMakeMove) return;
 			if (!this.board.selectedGamePiece) {
 				this.board.selectedGamePiece = this;
 				return;

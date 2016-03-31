@@ -11,6 +11,7 @@ DevTools.setup();
 import * as PIXI from 'pixi.js';
 import { Board } from './components/board';
 import { FpsCounter } from './components/fps-counter';
+import { TweenManager } from './tween/tween-manager';
 
 const game = document.getElementById('game') as HTMLDivElement;
 const renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight, {
@@ -24,4 +25,7 @@ const fpsCounter = new FpsCounter();
 stage.addChild(board);
 stage.addChild(fpsCounter);
 
-PIXI.ticker.shared.add((time) => renderer.render(stage));
+PIXI.ticker.shared.add((time) => {
+	renderer.render(stage);
+	TweenManager.Instance.update();
+});

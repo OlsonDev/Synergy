@@ -2,11 +2,14 @@
 import { BoardTile } from './board-tile';
 import { IGamePiece, GamePiece, GamePieceType } from './game-piece';
 import { MatchData, MoveDirection } from './match-data';
+import { TweenManager } from '../tween/tween-manager';
+import { Easing } from '../tween/easing';
 import { getRandomIntExclusive } from '../util/math-helper';
 
 export class Board extends PIXI.Container {
 	tiles: BoardTile[][];
 	gamePieces: IGamePiece[][];
+	numMovingGamePieces = 0;
 	selectedGamePiece: IGamePiece;
 
 	static numTiles = 8;
@@ -21,6 +24,10 @@ export class Board extends PIXI.Container {
 		this.ensureAtLeastOneMove();
 	}
 
+	get playerCanMakeMove() {
+		return this.numMovingGamePieces === 0;
+	}
+
 	private canSwap(a: IGamePiece, b: IGamePiece, force = false) {
 		if (force) return true;
 		if (!a.isAdjacentTo(b)) return false;
@@ -31,11 +38,82 @@ export class Board extends PIXI.Container {
 
 	swap(a: IGamePiece, b: IGamePiece, force = false) {
 		if (!this.canSwap(a, b, force)) return false;
+
+		// Immediately update board data
 		[a.boardPosition, b.boardPosition] = [b.boardPosition, a.boardPosition];
-		[a.position, b.position] = [b.position, a.position];
 		this.gamePieces[a.boardPosition.y][a.boardPosition.x] = a;
 		this.gamePieces[b.boardPosition.y][b.boardPosition.x] = b;
+
+		if (force) {
+			[a.position, b.position] = [b.position, a.position];
+		} else {
+			this.numMovingGamePieces += 2;
+
+			TweenManager.Instance.createTween(a)
+				.time(300)
+				.easing(Easing.OutCubic)
+				.to(b.position.clone())
+				.start()
+				.on('end', () => this.swapDone());
+			;
+
+			TweenManager.Instance.createTween(b)
+				.time(300)
+				.easing(Easing.OutCubic)
+				.to(a.position.clone())
+				.start()
+				.on('end', () => this.swapDone());
+			;
+		}
+
 		return true;
+	}
+
+	private swapDone() {
+		this.numMovingGamePieces--;
+		if (this.numMovingGamePieces) return;
+		this.findAndRemoveMatches();
+	}
+
+	private findMatches() {
+		// TODO: Should return an object specifying match amount (3/4/5-of-akind), type, game pieces involved)
+		const matches: Set<IGamePiece> = new Set();
+		for (let y = 0; y < Board.numTiles; y++) {
+			const row = this.gamePieces[y];
+			for (let x = 0; x < Board.numTiles; x++) {
+				const gamePiece = row[x];
+				const type = gamePiece.type;
+				// TODO: Should loop Match4, dedupe with Match3
+				for (let matchTemplates of MatchData.Match3) {
+					let allSameType = true;
+					for (let similarGamePiece of matchTemplates) {
+						let relativePiece = gamePiece.relativePiece(similarGamePiece);
+						if (type != relativePiece.type) {
+							allSameType = false;
+							break;
+						}
+					}
+					if (allSameType) {
+						matches.add(gamePiece);
+					}
+				}
+			}
+		}
+		return matches;
+	}
+
+	private findAndRemoveMatches() {
+		const gamePieces = this.findMatches();
+		this.numMovingGamePieces += gamePieces.size;
+		for (let gamePiece of gamePieces) {
+			TweenManager.Instance.createTween(gamePiece)
+				.time(300)
+				.easing(Easing.OutCubic)
+				.to({ alpha: 0, scale: { x: 1.5, y: 1.5 } })
+				.start()
+				.on('end', () => this.numMovingGamePieces--)
+			;
+		}
 	}
 
 	private canSwapWithoutMatchBeingMade(a: IGamePiece, b: IGamePiece) {
@@ -46,9 +124,9 @@ export class Board extends PIXI.Container {
 		const type = src.type;
 		const boardPosition = dest.boardPosition;
 
-		for (let matches of MatchData.Match3) {
+		for (let matchTemplates of MatchData.Match3) {
 			let allSameType = true;
-			for (let similarGamePiece of matches) {
+			for (let similarGamePiece of matchTemplates) {
 				let relativePiece = dest.relativePiece(similarGamePiece);
 				if (relativePiece === src) {
 					// pretend the swap happened
