@@ -12,12 +12,12 @@ export class Board extends PIXI.Container {
 	numMovingGamePieces = 0;
 	selectedGamePiece: IGamePiece;
 
-	static numTiles = 8;
+	static GridSize = 8;
 
 	constructor() {
 		super();
-		this.position.x = (1920 - (110 * Board.numTiles)) / 2;
-		this.position.y = (1080 - (110 * Board.numTiles)) / 2;
+		this.position.x = (1920 - (110 * Board.GridSize)) / 2;
+		this.position.y = (1080 - (110 * Board.GridSize)) / 2;
 
 		this.createTiles();
 		this.createGamePieces();
@@ -78,9 +78,9 @@ export class Board extends PIXI.Container {
 	private findMatches() {
 		// TODO: Should return an object specifying match amount (3/4/5-of-akind), type, game pieces involved)
 		const matches: Set<IGamePiece> = new Set();
-		for (let y = 0; y < Board.numTiles; y++) {
+		for (let y = 0; y < Board.GridSize; y++) {
 			const row = this.gamePieces[y];
-			for (let x = 0; x < Board.numTiles; x++) {
+			for (let x = 0; x < Board.GridSize; x++) {
 				const gamePiece = row[x];
 				const type = gamePiece.type;
 				// TODO: Should loop Match4, dedupe with Match3
@@ -144,10 +144,10 @@ export class Board extends PIXI.Container {
 
 	private createTiles() {
 		this.tiles = [];
-		for (let y = 0; y < Board.numTiles; y++) {
+		for (let y = 0; y < Board.GridSize; y++) {
 			const row = [] as BoardTile[];
 			this.tiles.push(row);
-			for (let x = 0; x < Board.numTiles; x++) {
+			for (let x = 0; x < Board.GridSize; x++) {
 				const tile = new BoardTile(x, y);
 				row.push(tile);
 				this.addChild(tile);
@@ -159,12 +159,12 @@ export class Board extends PIXI.Container {
 		this.gamePieces = [];
 		let aboveAboveRow: IGamePiece[];
 		let aboveRow: IGamePiece[];
-		for (let y = 0; y < Board.numTiles; y++) {
+		for (let y = 0; y < Board.GridSize; y++) {
 			const row = [] as GamePiece[];
 			this.gamePieces.push(row);
 			let leftLeftPiece: IGamePiece;
 			let leftPiece: IGamePiece;
-			for (let x = 0; x < Board.numTiles; x++) {
+			for (let x = 0; x < Board.GridSize; x++) {
 				const boardPosition = new PIXI.Point(x, y);
 				const disallowedTypes = [ GamePieceType.None ];
 
@@ -231,8 +231,8 @@ export class Board extends PIXI.Container {
 	}
 
 	private getRandomBoardPosition() {
-		const x = getRandomIntExclusive(0, Board.numTiles);
-		const y = getRandomIntExclusive(0, Board.numTiles);
+		const x = getRandomIntExclusive(0, Board.GridSize);
+		const y = getRandomIntExclusive(0, Board.GridSize);
 		return new PIXI.Point(x, y);
 	}
 
@@ -249,8 +249,8 @@ export class Board extends PIXI.Container {
 			// Since no moves exist, try to set up a move on the bottom; this will
 			// increase the chances of a cascade and thus the player won't have to
 			// endure watching a rearrange animation shortly into the game.
-			for (let y = Board.numTiles - 1; y > 0; y--) {
-				for (let x = 0; x < Board.numTiles; x++) {
+			for (let y = Board.GridSize - 1; y > 0; y--) {
+				for (let x = 0; x < Board.GridSize; x++) {
 					const dest = this.gamePieces[y][x];
 					if (src.type !== dest.type) continue;
 					for (let adjacent of dest.adjacents) {
