@@ -23,7 +23,7 @@ export class TweenManager {
 			let tween = this.tweens[i];
 			if (tween.active) {
 				tween.update(delta, deltaMS);
-				if (tween.isEnded && tween.expire) {
+				if (tween.shouldBeRemoved) {
 					tween.remove();
 				}
 			}

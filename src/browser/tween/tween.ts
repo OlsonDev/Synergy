@@ -42,7 +42,6 @@ function parseRecursiveData(to: any, from: any, target: any) {
 
 export class Tween extends PIXI.utils.EventEmitter {
 	active = false;
-	expire = false;
 	repeat = 0;
 	loop = false;
 	delay = 0;
@@ -58,6 +57,7 @@ export class Tween extends PIXI.utils.EventEmitter {
 	private _elapsedTime = 0;
 	private _repeat = 0;
 	private _pingPong = false;
+	private _removeWhenEnded = false;
 
 	private _chainTween: Tween;
 
@@ -71,6 +71,10 @@ export class Tween extends PIXI.utils.EventEmitter {
 		super();
 		if (!manager) return;
 		manager.addTween(this);
+	}
+
+	get shouldBeRemoved() {
+		return this.isEnded && this._removeWhenEnded;
 	}
 
 	addTo(manager: TweenManager) {
@@ -116,6 +120,11 @@ export class Tween extends PIXI.utils.EventEmitter {
 		return this;
 	}
 
+	removeWhenEnded(value: boolean) {
+		this._removeWhenEnded = value;
+		return this;
+	}
+
 	remove() {
 		if (!this.manager) return this;
 		this.manager.removeTween(this);
@@ -126,7 +135,7 @@ export class Tween extends PIXI.utils.EventEmitter {
 		this._time = 0;
 		this.active = false;
 		this._easing = Easing.Linear;
-		this.expire = false;
+		this._removeWhenEnded = false;
 		this.repeat = 0;
 		this.loop = false;
 		this.delay = 0;
