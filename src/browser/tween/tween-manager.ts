@@ -68,9 +68,9 @@ export class TweenManager {
 
 	private getDeltaMS() {
 		if (this.last === 0) {
-			this.last = Date.now();
+			this.last = performance.now();
 		}
-		const now = Date.now();
+		const now = performance.now();
 		const deltaMS = now - this.last;
 		this.last = now;
 		return deltaMS;
