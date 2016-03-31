@@ -58,14 +58,12 @@ export class Tween extends PIXI.utils.EventEmitter {
 	private _repeat = 0;
 	private _pingPong = false;
 	private _removeWhenEnded = false;
-
 	private _chainTween: Tween;
 
 	path: TweenPath = null;
 	pathReverse = false;
 	pathFrom = 0;
 	pathTo = 0;
-
 
 	constructor(public target: PIXI.DisplayObject, public manager?: TweenManager) {
 		super();
@@ -142,16 +140,13 @@ export class Tween extends PIXI.utils.EventEmitter {
 		this.pingPong = false;
 		this.isStarted = false;
 		this.isEnded = false;
-
 		this._to = null;
 		this._from = null;
 		this._delayTime = 0;
 		this._elapsedTime = 0;
 		this._repeat = 0;
 		this._pingPong = false;
-
 		this._chainTween = null;
-
 		this.path = null;
 		this.pathReverse = false;
 		this.pathFrom = 0;
@@ -164,21 +159,18 @@ export class Tween extends PIXI.utils.EventEmitter {
 		this._delayTime = 0;
 		this.isStarted = false;
 		this.isEnded = false;
-
-		if (this.pingPong&&this._pingPong) {
+		if (this.pingPong && this._pingPong) {
 			let _to = this._to;
 			let _from = this._from;
 			this._to = _from;
 			this._from = _to;
-
 			this._pingPong = false;
 		}
-
 		return this;
 	}
 
 	update(delta: number, deltaMS: number) {
-		if (!this.canUpdate() && (this._to||this.path))return;
+		if (!this.canUpdate() && (this._to || this.path)) return;
 		let _to: any, _from: any;
 		if (this.delay > this._delayTime) {
 			this._delayTime += deltaMS;
@@ -191,7 +183,7 @@ export class Tween extends PIXI.utils.EventEmitter {
 			this.emit('start');
 		}
 
-		let time = (this.pingPong) ? this._time/2 : this._time;
+		let time = this.pingPong ? this._time / 2 : this._time;
 		if (time > this._elapsedTime) {
 			let t = this._elapsedTime+deltaMS;
 			let ended = (t>=time);
@@ -199,7 +191,7 @@ export class Tween extends PIXI.utils.EventEmitter {
 			this._elapsedTime = ended ? time : t;
 			this.apply(time);
 
-			let realElapsed = this._pingPong ? time+this._elapsedTime : this._elapsedTime;
+			let realElapsed = this._pingPong ? time + this._elapsedTime : this._elapsedTime;
 			this.emit('update', realElapsed);
 
 			if (ended) {
@@ -227,7 +219,7 @@ export class Tween extends PIXI.utils.EventEmitter {
 					this.emit('repeat', this._repeat);
 					this._elapsedTime = 0;
 
-					if (this.pingPong&&this._pingPong) {
+					if (this.pingPong && this._pingPong) {
 						_to = this._to;
 						_from = this._from;
 						this._to = _from;
@@ -259,7 +251,7 @@ export class Tween extends PIXI.utils.EventEmitter {
 	}
 
 	private parseData() {
-		if (this.isStarted)return;
+		if (this.isStarted) return;
 
 		if (!this._from)this._from = {};
 		parseRecursiveData(this._to, this._from, this.target);
