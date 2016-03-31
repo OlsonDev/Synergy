@@ -63,7 +63,7 @@ export class GamePiece extends PIXI.Sprite {
 
 	get right(): IGamePiece {
 		const x = this.boardPosition.x + 1;
-		if (x >= Board.numTiles) return NullGamePiece.Instance;
+		if (x >= Board.GridSize) return NullGamePiece.Instance;
 		const y = this.boardPosition.y;
 		return this.board.gamePieces[y][x];
 	}
@@ -77,16 +77,16 @@ export class GamePiece extends PIXI.Sprite {
 
 	get below(): IGamePiece {
 		const y = this.boardPosition.y + 1;
-		if (y >= Board.numTiles) return NullGamePiece.Instance;
+		if (y >= Board.GridSize) return NullGamePiece.Instance;
 		const x = this.boardPosition.x;
 		return this.board.gamePieces[y][x];
 	}
 
 	relativePiece(deltaPosition: PIXI.Point) : IGamePiece {
 		const x = this.boardPosition.x + deltaPosition.x;
-		if (x < 0 || x >= Board.numTiles) return NullGamePiece.Instance;
+		if (x < 0 || x >= Board.GridSize) return NullGamePiece.Instance;
 		const y = this.boardPosition.y + deltaPosition.y;
-		if (y < 0 || y >= Board.numTiles) return NullGamePiece.Instance;
+		if (y < 0 || y >= Board.GridSize) return NullGamePiece.Instance;
 		return this.board.gamePieces[y][x];
 	}
 
