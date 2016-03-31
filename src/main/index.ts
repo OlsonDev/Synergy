@@ -7,6 +7,8 @@ class Main {
 	mainWindow: Electron.BrowserWindow;
 
 	constructor() {
+		electron.app.commandLine.appendSwitch("disable-renderer-backgrounding");
+
 		electron.app.on('window-all-closed', () => {
 			if (process.platform == 'darwin') return;
 			electron.app.quit();
