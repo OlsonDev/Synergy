@@ -7,12 +7,12 @@ import { Easing } from '../tween/easing';
 import { getRandomIntExclusive } from '../util/math-helper';
 
 export class Board extends PIXI.Container {
+	static GridSize = 8;
+
 	tiles: BoardTile[][];
 	gamePieces: IGamePiece[][];
 	numMovingGamePieces = 0;
 	selectedGamePiece: IGamePiece;
-
-	static GridSize = 8;
 
 	constructor() {
 		super();
