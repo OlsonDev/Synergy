@@ -9,8 +9,9 @@ import { getRandomIntExclusive } from '../util/math-helper';
 export class Board extends PIXI.Container {
 	static GridSize = 8;
 
-	tiles: BoardTile[][];
-	gamePieces: IGamePiece[][];
+	tiles: BoardTile[][] = [];
+	gamePieces: IGamePiece[][] = [];
+	gamePiecesToRemove = new Set<IGamePiece>();
 	numMovingGamePieces = 0;
 	selectedGamePiece: IGamePiece;
 
@@ -106,14 +107,111 @@ export class Board extends PIXI.Container {
 		const gamePieces = this.findMatches();
 		this.numMovingGamePieces += gamePieces.size;
 		for (let gamePiece of gamePieces) {
+			gamePiece.removeAfterCascade = true;
+			gamePiece.interactive = false;
+			this.gamePiecesToRemove.add(gamePiece);
+
 			TweenManager.Instance.createTween(gamePiece)
 				.time(300)
 				.easing(Easing.OutCubic)
 				.to({ alpha: 0, scale: { x: 1.5, y: 1.5 } })
 				.start()
-				.on('end', () => this.numMovingGamePieces--)
+				.on('end', () => {
+					this.numMovingGamePieces--;
+					if (this.numMovingGamePieces === 0) {
+						this.cascade();
+					}
+				})
 			;
 		}
+	}
+
+	private cascade() {
+		const newBoardPositions = new Map<IGamePiece, PIXI.Point>();
+		const numMissingPiecesPerColumn = new Map<number, number>();
+
+		for (let gamePiece of this.gamePiecesToRemove) {
+			const column = gamePiece.boardPosition.x;
+			const numMissingPieces = numMissingPiecesPerColumn.get(column) || 0;
+			numMissingPiecesPerColumn.set(column, numMissingPieces + 1);
+
+			let above = gamePiece.above;
+			while (above.isOnBoard) {
+				let newBoardPosition = newBoardPositions.get(above);
+				if (newBoardPosition == undefined) {
+					newBoardPosition = above.boardPosition.clone();
+					newBoardPositions.set(above, newBoardPosition);
+				}
+				newBoardPosition.y++;
+				above = above.above;
+			}
+		}
+
+		this.numMovingGamePieces += newBoardPositions.size;
+		for (let [gamePiece, newBoardPosition] of newBoardPositions) {
+			gamePiece.boardPosition = newBoardPosition;
+			this.gamePieces[newBoardPosition.y][newBoardPosition.x] = gamePiece;
+			const newPosition = GamePiece.BoardPositionToPosition(newBoardPosition);
+			TweenManager.Instance.createTween(gamePiece)
+				.time(300)
+				.easing(Easing.OutCubic)
+				.to(newPosition)
+				.start()
+				.on('end', () => {
+					this.numMovingGamePieces--;
+					if (this.numMovingGamePieces === 0) {
+						// TODO: One cascade is enough for now...
+						this.findAndRemoveMatches();
+					}
+				})
+			;
+		}
+
+		let numMissingPiecesInColumn = 0;
+		let yOffset = 0;
+		let column = NaN;
+		const iter = numMissingPiecesPerColumn.entries();
+		this.numMovingGamePieces += this.gamePiecesToRemove.size;
+		for (let gamePiece of this.gamePiecesToRemove) {
+			if (numMissingPiecesInColumn === 0) {
+				[column, numMissingPiecesInColumn] = iter.next().value;
+				yOffset = -(numMissingPiecesInColumn * GamePiece.GamePieceSize + GamePiece.HalfGamePieceSize);
+			}
+
+			gamePiece.type = GamePiece.GetRandomType([GamePieceType.None])
+			gamePiece.alpha = 1;
+			gamePiece.scale.set(1);
+			gamePiece.texture = GamePiece.GetTexture(gamePiece.type);
+
+			const row = numMissingPiecesInColumn - 1;
+			gamePiece.boardPosition.x = column;
+			gamePiece.boardPosition.y = row;
+			this.gamePieces[row][column] = gamePiece;
+
+			let newPosition = GamePiece.BoardPositionToPosition(gamePiece.boardPosition);
+			gamePiece.position.x = newPosition.x;
+			gamePiece.position.y = newPosition.y + yOffset;
+
+			TweenManager.Instance.createTween(gamePiece)
+				.time(300)
+				.easing(Easing.OutCubic)
+				.to(newPosition)
+				.start()
+				.on('end', () => {
+					this.numMovingGamePieces--;
+					if (this.numMovingGamePieces === 0) {
+						// TODO: One cascade is enough for now...
+						this.findAndRemoveMatches();
+					}
+				})
+			;
+
+			gamePiece.removeAfterCascade = false;
+			gamePiece.interactive = true;
+			numMissingPiecesInColumn--;
+		}
+
+		this.gamePiecesToRemove.clear();
 	}
 
 	private canSwapWithoutMatchBeingMade(a: IGamePiece, b: IGamePiece) {
@@ -143,7 +241,6 @@ export class Board extends PIXI.Container {
 	}
 
 	private createTiles() {
-		this.tiles = [];
 		for (let y = 0; y < Board.GridSize; y++) {
 			const row = [] as BoardTile[];
 			this.tiles.push(row);
@@ -156,7 +253,6 @@ export class Board extends PIXI.Container {
 	}
 
 	private createGamePieces() {
-		this.gamePieces = [];
 		let aboveAboveRow: IGamePiece[];
 		let aboveRow: IGamePiece[];
 		for (let y = 0; y < Board.GridSize; y++) {

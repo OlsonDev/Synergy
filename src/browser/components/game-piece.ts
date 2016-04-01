@@ -25,14 +25,26 @@ export interface IGamePiece extends PIXI.Sprite {
 	adjacents: IGamePiece[];
 	isAdjacentTo(other: IGamePiece): boolean;
 	isOnBoard: boolean;
+	removeAfterCascade: boolean;
 }
 
 export class GamePiece extends PIXI.Sprite {
+	removeAfterCascade = false;
+
+	static GamePieceSize = 110;
+	static HalfGamePieceSize = GamePiece.GamePieceSize / 2;
+
+	static BoardPositionToPosition(boardPosition: PIXI.Point, position?: PIXI.Point) {
+		position = position ? position : new PIXI.Point();
+		position.x = GamePiece.HalfGamePieceSize + boardPosition.x * GamePiece.GamePieceSize;
+		position.y = GamePiece.HalfGamePieceSize + boardPosition.y * GamePiece.GamePieceSize;
+		return position;
+	}
+
 	constructor(public boardPosition: PIXI.Point, public type: GamePieceType) {
 		super(GamePiece.GetTexture(type));
-		this.width = this.height = 110;
-		this.position.x = boardPosition.x * this.width + 55;
-		this.position.y = boardPosition.y * this.height + 55;
+		this.width = this.height = GamePiece.GamePieceSize;
+		GamePiece.BoardPositionToPosition(boardPosition, this.position);
 		this.anchor.x = 0.5;
 		this.anchor.y = 0.5;
 

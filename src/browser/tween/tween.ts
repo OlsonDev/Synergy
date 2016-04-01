@@ -57,7 +57,7 @@ export class Tween extends PIXI.utils.EventEmitter {
 	private _elapsedTime = 0;
 	private _repeat = 0;
 	private _pingPong = false;
-	private _removeWhenEnded = false;
+	private _removeWhenEnded = true;
 	private _chainTween: Tween;
 
 	path: TweenPath = null;
