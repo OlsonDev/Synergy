@@ -25,6 +25,31 @@ export class Board extends PIXI.Container {
 		this.ensureAtLeastOneMove();
 	}
 
+	logGamePieces(highlightGamePiece?: IGamePiece) {
+		let str = '', args: string[] = [];
+		for (let row of this.gamePieces) {
+			for (let gamePiece of row) {
+				str += `%c${gamePiece.type}`;
+				const highlightCss = highlightGamePiece === gamePiece
+					? 'border: 1px solid #FFF; font-weight: bold;'
+					: 'border: 1px solid #000;'
+				;
+				const otherCss = `display: block; padding: 5px 11px; line-height: 35px; font-size: 20px; color: #FFF; ${highlightCss}`;
+				switch (gamePiece.type) {
+					case GamePieceType.None:   args.push(`background: #616161; ${otherCss}`); break;
+					case GamePieceType.Red:    args.push(`background: #D32F2F; ${otherCss}`); break;
+					case GamePieceType.Yellow: args.push(`background: #FFA000; ${otherCss}`); break;
+					case GamePieceType.Green:  args.push(`background: #388E3C; ${otherCss}`); break;
+					case GamePieceType.Blue:   args.push(`background: #1976D2; ${otherCss}`); break;
+					case GamePieceType.Purple: args.push(`background: #512DA8; ${otherCss}`); break;
+					case GamePieceType.Brown:  args.push(`background: #5D4037; ${otherCss}`); break;
+				}
+			}
+			str += '\n';
+		}
+		console.log(str, ...args);
+	}
+
 	get playerCanMakeMove() {
 		return this.numMovingGamePieces === 0;
 	}
@@ -46,7 +71,9 @@ export class Board extends PIXI.Container {
 		this.gamePieces[b.boardPosition.y][b.boardPosition.x] = b;
 
 		if (force) {
-			[a.position, b.position] = [b.position, a.position];
+			// Don't use [a.pos, b.pos] = [b.pos, a.pos]
+			// cuz could have animations bound to actual object
+			[a.x, a.y, b.x, b.y] = [b.x, b.y, a.x, b.y];
 		} else {
 			this.numMovingGamePieces += 2;
 
@@ -137,6 +164,10 @@ export class Board extends PIXI.Container {
 
 			let above = gamePiece.above;
 			while (above.isOnBoard) {
+				if (above.removeAfterCascade) {
+					above = above.above;
+					continue;
+				}
 				let newBoardPosition = newBoardPositions.get(above);
 				if (newBoardPosition == undefined) {
 					newBoardPosition = above.boardPosition.clone();
@@ -160,7 +191,6 @@ export class Board extends PIXI.Container {
 				.on('end', () => {
 					this.numMovingGamePieces--;
 					if (this.numMovingGamePieces === 0) {
-						// TODO: One cascade is enough for now...
 						this.findAndRemoveMatches();
 					}
 				})
@@ -178,10 +208,12 @@ export class Board extends PIXI.Container {
 				yOffset = -(numMissingPiecesInColumn * GamePiece.GamePieceSize + GamePiece.HalfGamePieceSize);
 			}
 
-			gamePiece.type = GamePiece.GetRandomType([GamePieceType.None])
+			gamePiece.type = GamePiece.GetRandomType([GamePieceType.None]);
 			gamePiece.alpha = 1;
-			gamePiece.scale.set(1);
 			gamePiece.texture = GamePiece.GetTexture(gamePiece.type);
+			// Change width/height instead of scale to 1; behavior of scale changes
+			// depending on if a new texture had to be loaded above
+			gamePiece.width = gamePiece.height = GamePiece.GamePieceSize;
 
 			const row = numMissingPiecesInColumn - 1;
 			gamePiece.boardPosition.x = column;
@@ -200,7 +232,6 @@ export class Board extends PIXI.Container {
 				.on('end', () => {
 					this.numMovingGamePieces--;
 					if (this.numMovingGamePieces === 0) {
-						// TODO: One cascade is enough for now...
 						this.findAndRemoveMatches();
 					}
 				})
