@@ -107,7 +107,7 @@ export class GamePiece extends PIXI.Sprite {
 		return [ this.left, this.right, this.above, this.below ];
 	}
 
-	isAdjacentTo(other: IGamePiece) {
+	isAdjacentTo(other: IGamePiece): boolean {
 		// Optimize for common case; NullGamePiece's adjacents = []
 		// So check if we're in other's adjacents instead of bothering
 		// to check if other == NullGamePiece.Instance
