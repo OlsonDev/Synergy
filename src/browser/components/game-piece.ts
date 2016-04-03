@@ -54,10 +54,14 @@ export class GamePiece extends PIXI.Sprite {
 			if (!this.board.playerCanMakeMove) return;
 			if (!this.board.selectedGamePiece) {
 				this.board.selectedGamePiece = this;
+				this.board.highlighter.x = this.x;
+				this.board.highlighter.y = this.y;
+				this.board.highlighter.alpha = 1;
 				return;
 			}
 			const swapped = this.board.swap(this, this.board.selectedGamePiece);
 			this.board.selectedGamePiece = null;
+			this.board.highlighter.alpha = 0;
 		});
 	}
 

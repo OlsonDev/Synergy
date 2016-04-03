@@ -1,5 +1,6 @@
 'use strict';
 import { BoardTile } from './board-tile';
+import { Highlighter } from './highlighter';
 import { IGamePiece, GamePiece, GamePieceType } from './game-piece';
 import { MatchData, MoveDirection } from './match-data';
 import { TweenManager } from '../tween/tween-manager';
@@ -14,6 +15,7 @@ export class Board extends PIXI.Container {
 	gamePiecesToRemove = new Set<IGamePiece>();
 	numMovingGamePieces = 0;
 	selectedGamePiece: IGamePiece;
+	highlighter: Highlighter;
 
 	constructor() {
 		super();
@@ -21,6 +23,10 @@ export class Board extends PIXI.Container {
 		this.position.y = (1080 - (110 * Board.GridSize)) / 2;
 
 		this.createTiles();
+
+		this.highlighter = new Highlighter();
+		this.addChild(this.highlighter);
+
 		this.createGamePieces();
 		this.ensureAtLeastOneMove();
 	}
