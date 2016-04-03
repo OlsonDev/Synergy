@@ -88,7 +88,7 @@ export class Board extends PIXI.Container {
 				.easing(Easing.OutCubic)
 				.to(b.position.clone())
 				.start()
-				.on('end', () => this.swapDone());
+				.on('end', () => this.swapTweenDone());
 			;
 
 			TweenManager.Instance.createTween(b)
@@ -96,14 +96,14 @@ export class Board extends PIXI.Container {
 				.easing(Easing.OutCubic)
 				.to(a.position.clone())
 				.start()
-				.on('end', () => this.swapDone());
+				.on('end', () => this.swapTweenDone());
 			;
 		}
 
 		return true;
 	}
 
-	private swapDone() {
+	private swapTweenDone() {
 		this.numMovingGamePieces--;
 		if (this.numMovingGamePieces) return;
 		this.findAndRemoveMatches();
