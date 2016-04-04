@@ -168,6 +168,27 @@ export class Board extends PIXI.Container {
 	private findAndRemoveAllMatches() {
 		const matches = this.findAllMatches();
 		for (let match of matches) {
+			if (match.numOfAKind > 3) {
+				const center = match.getCenter();
+				const extraTurn = PIXI.Sprite.fromImage('/images/extra-turn.svg');
+				this.addChild(extraTurn);
+				extraTurn.anchor.x = extraTurn.anchor.y = 0.5;
+				const etX = center.x - this.x;
+				const etY = center.y - this.y;
+				extraTurn.position.set(etX, etY);
+				TweenManager.Instance.createTween(extraTurn)
+					.time(1000)
+					.easing(Easing.OutCubic)
+					.to({ y: etY - 100 })
+					.start()
+					.chain()
+					.time(300)
+					.to({ alpha: 0, y: etY - 150 })
+					.on('end', () => {
+						this.removeChild(extraTurn);
+					})
+				;
+			}
 			this.numMovingGamePieces += match.gamePieces.size;
 			for (let gamePiece of match.gamePieces) {
 				gamePiece.removeAfterCascade = true;
@@ -177,7 +198,7 @@ export class Board extends PIXI.Container {
 				TweenManager.Instance.createTween(gamePiece)
 					.time(300)
 					.easing(Easing.OutCubic)
-					.to({ alpha: 0, scale: { x: 1.5, y: 1.5 } })
+					.to({ alpha: 0, scale: { x: 0, y: 0 } })
 					.start()
 					.on('end', () => {
 						this.numMovingGamePieces--;
