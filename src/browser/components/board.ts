@@ -2,7 +2,7 @@
 import { BoardTile } from './board-tile';
 import { Highlighter } from './highlighter';
 import { IGamePiece, GamePiece, GamePieceType } from './game-piece';
-import { MatchData, MoveDirection } from './match-data';
+import { MatchData, MoveDirection } from '../models/match-data';
 import { TweenManager } from '../tween/tween-manager';
 import { Easing } from '../tween/easing';
 import { getRandomIntExclusive } from '../util/math-helper';
