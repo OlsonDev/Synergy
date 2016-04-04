@@ -2,6 +2,7 @@
 import { BoardTile } from './board-tile';
 import { Highlighter } from './highlighter';
 import { IGamePiece, GamePiece, GamePieceType } from './game-piece';
+import { Match } from '../models/match';
 import { MatchData, MoveDirection } from '../models/match-data';
 import { TweenManager } from '../tween/tween-manager';
 import { Easing } from '../tween/easing';
@@ -106,56 +107,86 @@ export class Board extends PIXI.Container {
 	private swapTweenDone() {
 		this.numMovingGamePieces--;
 		if (this.numMovingGamePieces) return;
-		this.findAndRemoveMatches();
+		this.findAndRemoveAllMatches();
 	}
 
-	private findMatches() {
-		// TODO: Should return an object specifying match amount (3/4/5-of-akind), type, game pieces involved)
-		const matches: Set<IGamePiece> = new Set();
+	private findAllMatches() {
+		const matches: Match[] = [];
 		for (let y = 0; y < Board.GridSize; y++) {
 			const row = this.gamePieces[y];
 			for (let x = 0; x < Board.GridSize; x++) {
 				const gamePiece = row[x];
-				const type = gamePiece.type;
-				// TODO: Should loop Match4, dedupe with Match3
-				for (let matchTemplates of MatchData.Match3) {
-					let allSameType = true;
-					for (let similarGamePiece of matchTemplates) {
-						let relativePiece = gamePiece.relativePiece(similarGamePiece);
-						if (type != relativePiece.type) {
-							allSameType = false;
-							break;
-						}
-					}
-					if (allSameType) {
-						matches.add(gamePiece);
-					}
+				let match4s = this.findGamePieceMatches(gamePiece, MatchData.Match4);
+				let match3s = this.findGamePieceMatches(gamePiece, MatchData.Match3);
+				matches.push(...match4s);
+				matches.push(...match3s);
+			}
+		}
+		return this.mergeAndDedupeMatches(matches);
+	}
+
+	private findGamePieceMatches(gamePiece: IGamePiece, matchData: PIXI.Point[][]) {
+		const type = gamePiece.type;
+		const matches: Match[] = [];
+		for (let matchTemplates of matchData) {
+			let allSameType = true;
+			let relativePieces: IGamePiece[] = [ gamePiece ];
+			for (let similarGamePiece of matchTemplates) {
+				let relativePiece = gamePiece.relativePiece(similarGamePiece);
+				relativePieces.push(relativePiece);
+				if (type !== relativePiece.type) {
+					allSameType = false;
+					break;
 				}
+			}
+			if (allSameType) {
+				matches.push(new Match(relativePieces));
 			}
 		}
 		return matches;
 	}
 
-	private findAndRemoveMatches() {
-		const gamePieces = this.findMatches();
-		this.numMovingGamePieces += gamePieces.size;
-		for (let gamePiece of gamePieces) {
-			gamePiece.removeAfterCascade = true;
-			gamePiece.interactive = false;
-			this.gamePiecesToRemove.add(gamePiece);
-
-			TweenManager.Instance.createTween(gamePiece)
-				.time(300)
-				.easing(Easing.OutCubic)
-				.to({ alpha: 0, scale: { x: 1.5, y: 1.5 } })
-				.start()
-				.on('end', () => {
-					this.numMovingGamePieces--;
-					if (this.numMovingGamePieces === 0) {
-						this.cascade();
+	private mergeAndDedupeMatches(matches: Match[]) {
+		let mergeMade = false;
+		do {
+			mergeMade = false;
+			for (let i = 0; i < matches.length; i++) {
+				let m1 = matches[i];
+				for (let j = i + 1; j < matches.length; j++) {
+					let m2 = matches[j];
+					if (m1.merge(m2)) {
+						mergeMade = true;
+						matches.splice(j, 1);
+						j--;
 					}
-				})
-			;
+				}
+			}
+		} while (mergeMade)
+		return matches;
+	}
+
+	private findAndRemoveAllMatches() {
+		const matches = this.findAllMatches();
+		for (let match of matches) {
+			this.numMovingGamePieces += match.gamePieces.size;
+			for (let gamePiece of match.gamePieces) {
+				gamePiece.removeAfterCascade = true;
+				gamePiece.interactive = false;
+				this.gamePiecesToRemove.add(gamePiece);
+
+				TweenManager.Instance.createTween(gamePiece)
+					.time(300)
+					.easing(Easing.OutCubic)
+					.to({ alpha: 0, scale: { x: 1.5, y: 1.5 } })
+					.start()
+					.on('end', () => {
+						this.numMovingGamePieces--;
+						if (this.numMovingGamePieces === 0) {
+							this.cascade();
+						}
+					})
+				;
+			}
 		}
 	}
 
@@ -197,7 +228,7 @@ export class Board extends PIXI.Container {
 				.on('end', () => {
 					this.numMovingGamePieces--;
 					if (this.numMovingGamePieces === 0) {
-						this.findAndRemoveMatches();
+						this.findAndRemoveAllMatches();
 					}
 				})
 			;
@@ -238,7 +269,7 @@ export class Board extends PIXI.Container {
 				.on('end', () => {
 					this.numMovingGamePieces--;
 					if (this.numMovingGamePieces === 0) {
-						this.findAndRemoveMatches();
+						this.findAndRemoveAllMatches();
 					}
 				})
 			;
