@@ -17,6 +17,8 @@ export class Board extends PIXI.Container {
 	numMovingGamePieces = 0;
 	selectedGamePiece: IGamePiece;
 	highlighter: Highlighter;
+	draggingGamePiece: IGamePiece;
+	gamePiecesListeningForMouseMove: IGamePiece[] = [];
 
 	constructor() {
 		super();
@@ -56,9 +58,37 @@ export class Board extends PIXI.Container {
 		}
 		console.log(str, ...args);
 	}
-
 	get playerCanMakeMove() {
 		return this.numMovingGamePieces === 0;
+	}
+
+	beginDrag(gamePiece: IGamePiece) {
+		if (!this.playerCanMakeMove) {
+			this.endDragAndUnbindMouseOver();
+			return;
+		}
+		this.draggingGamePiece = gamePiece;
+		for (let adjacent of gamePiece.adjacentsOnBoard) {
+			adjacent.on('mouseover', () => this.swap(gamePiece, adjacent));
+			this.gamePiecesListeningForMouseMove.push(adjacent);
+		}
+	}
+
+	endDrag(gamePiece: IGamePiece) {
+		if (!this.playerCanMakeMove) {
+			this.endDragAndUnbindMouseOver();
+			return;
+		}
+		if (this.draggingGamePiece !== gamePiece) return;
+		this.endDragAndUnbindMouseOver();
+	}
+
+	private endDragAndUnbindMouseOver() {
+		this.draggingGamePiece = null;
+		for (let gamePiece of this.gamePiecesListeningForMouseMove) {
+			gamePiece.removeAllListeners('mouseover');
+		}
+		this.gamePiecesListeningForMouseMove.length = 0;
 	}
 
 	private canSwap(a: IGamePiece, b: IGamePiece, force = false) {
@@ -101,6 +131,7 @@ export class Board extends PIXI.Container {
 			;
 		}
 
+		this.endDragAndUnbindMouseOver();
 		return true;
 	}
 

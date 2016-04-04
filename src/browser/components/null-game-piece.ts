@@ -22,6 +22,7 @@ export class NullGamePiece extends PIXI.Sprite implements IGamePiece {
 	get below() { return this; }
 	relativePiece(deltaPosition: PIXI.Point) { return this; }
 	get adjacents() { return <IGamePiece[]>[]; }
+	get adjacentsOnBoard() { return <IGamePiece[]>[]; }
 	isAdjacentTo(other: IGamePiece) { return false; }
 	get removeAfterCascade() { return false; }
 }

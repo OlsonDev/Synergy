@@ -23,6 +23,7 @@ export interface IGamePiece extends PIXI.Sprite {
 	below: IGamePiece;
 	relativePiece(deltaPosition: PIXI.Point) : IGamePiece;
 	adjacents: IGamePiece[];
+	adjacentsOnBoard: IGamePiece[];
 	isAdjacentTo(other: IGamePiece): boolean;
 	isOnBoard: boolean;
 	removeAfterCascade: boolean;
@@ -50,6 +51,7 @@ export class GamePiece extends PIXI.Sprite {
 
 		this.interactive = true;
 		this.on('click', (e: any) => {
+			this.board.endDrag(this);
 			this.board.logGamePieces(this);
 			if (!this.board.playerCanMakeMove) return;
 			if (!this.board.selectedGamePiece) {
@@ -62,6 +64,11 @@ export class GamePiece extends PIXI.Sprite {
 			const swapped = this.board.swap(this, this.board.selectedGamePiece);
 			this.board.selectedGamePiece = null;
 			this.board.highlighter.alpha = 0;
+		});
+
+		this.on('mousedown', (e: any) => {
+			if (!this.board.playerCanMakeMove) return;
+			this.board.beginDrag(this);
 		});
 	}
 
@@ -109,6 +116,20 @@ export class GamePiece extends PIXI.Sprite {
 
 	get adjacents(): IGamePiece[] {
 		return [ this.left, this.right, this.above, this.below ];
+	}
+
+	get adjacentsOnBoard(): IGamePiece[] {
+		const adjacents: IGamePiece[] = [];
+		const left = this.left
+			, right = this.right
+			, above = this.above
+			, below = this.below
+		;
+		if (left.isOnBoard) adjacents.push(left);
+		if (right.isOnBoard) adjacents.push(right);
+		if (above.isOnBoard) adjacents.push(above);
+		if (below.isOnBoard) adjacents.push(below);
+		return adjacents;
 	}
 
 	isAdjacentTo(other: IGamePiece): boolean {
