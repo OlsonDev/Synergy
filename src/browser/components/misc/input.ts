@@ -1,18 +1,24 @@
 'use strict';
 
-import * as kb from 'keyboardjs/index';
-const keyboard = kb.default;
+import kbjs = require('keyboardjs/index');
 
-keyboard.bind.keydownOnce = function(keys: string | string[], callback: () => void) {
+interface ExtendedKeyboard extends kbjs.Keyboard {
+	keydownOnce(keys: string | string[], callback: kbjs.EventHandler): void;
+}
+
+const keyboard = kbjs.default as any as ExtendedKeyboard;
+
+keyboard.keydownOnce = function(keys: string | string[], callback: kbjs.EventHandler) {
 	let keyPressed = false;
-	return kb.default.bind(keys
-		, () => {
+	return this.bind(keys
+		, (e) => {
 			if (keyPressed) return;
 			keyPressed = true;
-			if (typeof callback === 'function') callback();
+			callback(e);
 		}
 		, () => keyPressed = false
 	);
 };
+
 
 export { keyboard as Keyboard };

@@ -26,7 +26,7 @@ function _setup() {
 	win.on('maximize', updateButtons);
 	updateButtons();
 
-	Keyboard.bind.keydownOnce(['esc', 'alt'], (e: keyboardjs.KeyEvent) => {
+	Keyboard.keydownOnce(['esc', 'alt'], (e: keyboardjs.KeyEvent) => {
 		document.body.classList.toggle('paused');
 	});
 }

@@ -1,8 +1,10 @@
 {
 	"ambientDependencies": {
-		"github-electron": "registry:dt/github-electron#0.37.2+20160326005648",
-		"keyboardjs": "registry:dt/keyboardjs#2.2.0+20160317120654",
+		"electron": "github:typed-typings/env-electron#8c09905e0adca19409654e2fd90bef629c6a9a59",
 		"node": "registry:dt/node#4.0.0+20160330064709",
-		"pixi.js": "registry:dt/pixi.js#3.0.9+20160317120654"
+		"pixi.js": "registry:dt/pixi.js#3.0.9+20160404013751"
+	},
+	"dependencies": {
+		"keyboardjs": "github:OlsonDev/typed-keyboardjs"
 	}
 }

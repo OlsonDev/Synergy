@@ -5,6 +5,6 @@ export class PseudoPixiContainer extends PIXI.Container {
 	// but don't want to steal children from real parents
 	addChild(...child: PIXI.DisplayObject[]) {
 		this.children.push(...child);
-		return child;
+		return [...child][0];
 	}
 }
