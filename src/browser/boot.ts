@@ -10,6 +10,9 @@ DevTools.setup();
 
 import * as PIXI from 'pixi.js';
 import { Board } from './components/board';
+import { Unit } from './models/unit';
+import { UnitService } from './services/unit-service';
+import { UnitBattleCard } from './components/unit-battle-card';
 import { FpsCounter } from './components/fps-counter';
 import { TweenManager } from './tween/tween-manager';
 
@@ -24,6 +27,12 @@ const board = new Board();
 const fpsCounter = new FpsCounter();
 stage.addChild(board);
 stage.addChild(fpsCounter);
+
+
+const unit = Unit.getByCode('barbarian');
+const battleCard = new UnitBattleCard(unit);
+battleCard.y = board.y;
+stage.addChild(battleCard);
 
 PIXI.ticker.shared.add((time) => {
 	renderer.render(stage);

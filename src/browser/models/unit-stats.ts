@@ -1,5 +1,12 @@
 'use strict';
 
+export enum UnitStatType {
+	Health,
+	Armor,
+	Power,
+	Magic
+}
+
 export enum StatTarget {
 	Health,
 	Armor,

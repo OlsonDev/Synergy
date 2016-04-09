@@ -5,12 +5,17 @@ import { UnitColor, UnitColors } from './unit-color';
 import { I18n } from '../services/i18n';
 import { UnitService } from '../services/unit-service';
 
+export interface DamageEventData {
+	amount: number;
+	type: StatTarget;
+}
+
 export class Unit extends PIXI.utils.EventEmitter {
 	private _code: string;
 	private _name: string;
 	private _initialStats: UnitStats;
 	private _currentStats: UnitStats;
-	private _colors: [ UnitColor, UnitColor ];
+	private _colors: UnitColors;
 
 	static getByCode(code: string) {
 		const name = I18n.get(`unit.name.${code}`);
@@ -19,15 +24,14 @@ export class Unit extends PIXI.utils.EventEmitter {
 		return new Unit(code, name, colors, stats);
 	}
 
-	constructor(code: string, name: string, colors: UnitColors, stats: UnitStats) {
+	private constructor(code: string, name: string, colors: UnitColors, stats: UnitStats) {
 		super();
 		this._code = code;
 		this._name = name;
+		this._colors = colors;
 		this._initialStats = stats;
 		this._currentStats = stats.clone();
 	}
-
-
 
 	get code() { return this._code; }
 	get name() { return this._name || this._code; }
@@ -37,6 +41,12 @@ export class Unit extends PIXI.utils.EventEmitter {
 	get armor () { return this._currentStats.armor; }
 	get magic () { return this._currentStats.magic; }
 	get power () { return this._currentStats.power; }
+
+	on(event: 'before-damage', fn: (damageEvent: DamageEventData) => void, context?: any): PIXI.utils.EventEmitter;
+	on(event: 'damage', fn: (damageEvent: DamageEventData) => void, context?: any): PIXI.utils.EventEmitter;
+	on(event: string, fn: Function, context?: any): PIXI.utils.EventEmitter {
+		return super.on(event, fn, context);
+	}
 
 	takeDamage(amount: number, type: StatTarget = StatTarget.ArmorThenHealth) {
 		this.emit('before-damage', { amount, type });
