@@ -32,19 +32,19 @@ export interface IGamePiece extends PIXI.Sprite {
 export class GamePiece extends PIXI.Sprite {
 	removeAfterCascade = false;
 
-	static GamePieceSize = 110;
-	static HalfGamePieceSize = GamePiece.GamePieceSize / 2;
+	static Size = 120;
+	static HalfGamePieceSize = GamePiece.Size / 2;
 
 	static BoardPositionToPosition(boardPosition: PIXI.Point, position?: PIXI.Point) {
 		position = position ? position : new PIXI.Point();
-		position.x = GamePiece.HalfGamePieceSize + boardPosition.x * GamePiece.GamePieceSize;
-		position.y = GamePiece.HalfGamePieceSize + boardPosition.y * GamePiece.GamePieceSize;
+		position.x = GamePiece.HalfGamePieceSize + boardPosition.x * GamePiece.Size;
+		position.y = GamePiece.HalfGamePieceSize + boardPosition.y * GamePiece.Size;
 		return position;
 	}
 
 	constructor(public boardPosition: PIXI.Point, public type: GamePieceType) {
 		super(GamePiece.GetTexture(type));
-		this.width = this.height = GamePiece.GamePieceSize;
+		this.width = this.height = GamePiece.Size;
 		GamePiece.BoardPositionToPosition(boardPosition, this.position);
 		this.anchor.x = 0.5;
 		this.anchor.y = 0.5;

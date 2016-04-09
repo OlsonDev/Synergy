@@ -1,6 +1,7 @@
 'use strict';
 
 import { TweenManager } from '../tween/tween-manager';
+import { GamePiece } from './game-piece';
 
 export class Highlighter extends PIXI.Container {
 	constructor() {
@@ -9,7 +10,7 @@ export class Highlighter extends PIXI.Container {
 		const layer1 = PIXI.Sprite.fromImage(`/images/highlighter-1.svg`);
 		this.addChild(layer0);
 		this.addChild(layer1);
-		this.width = this.height = layer0.width = layer0.height = layer1.width = layer1.height = 110;
+		this.width = this.height = layer0.width = layer0.height = layer1.width = layer1.height = GamePiece.Size;
 		layer0.anchor.x = layer0.anchor.y = layer1.anchor.x = layer1.anchor.y = 0.5;
 		this.alpha = 0;
 		TweenManager.Instance.createTween(this)

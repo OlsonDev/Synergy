@@ -22,8 +22,8 @@ export class Board extends PIXI.Container {
 
 	constructor() {
 		super();
-		this.position.x = (1920 - (110 * Board.GridSize)) / 2;
-		this.position.y = (1080 - (110 * Board.GridSize)) / 2;
+		this.position.x = (1920 - (BoardTile.Size * Board.GridSize)) / 2;
+		this.position.y = (1080 - (BoardTile.Size * Board.GridSize)) / 2;
 
 		this.createTiles();
 
@@ -294,7 +294,7 @@ export class Board extends PIXI.Container {
 		for (let gamePiece of this.gamePiecesToRemove) {
 			if (numMissingPiecesInColumn === 0) {
 				[column, numMissingPiecesInColumn] = iter.next().value;
-				yOffset = -(numMissingPiecesInColumn * GamePiece.GamePieceSize + GamePiece.HalfGamePieceSize);
+				yOffset = -(numMissingPiecesInColumn * GamePiece.Size + GamePiece.HalfGamePieceSize);
 			}
 
 			gamePiece.type = GamePiece.GetRandomType([GamePieceType.None]);
@@ -302,7 +302,7 @@ export class Board extends PIXI.Container {
 			gamePiece.texture = GamePiece.GetTexture(gamePiece.type);
 			// Change width/height instead of scale to 1; behavior of scale changes
 			// depending on if a new texture had to be loaded above
-			gamePiece.width = gamePiece.height = GamePiece.GamePieceSize;
+			gamePiece.width = gamePiece.height = GamePiece.Size;
 
 			const row = numMissingPiecesInColumn - 1;
 			gamePiece.boardPosition.x = column;
