@@ -5,6 +5,9 @@ import { UnitStatType } from '../models/unit-stats';
 import { CardStat } from './card-stat';
 
 export class UnitBattleCard extends PIXI.Container {
+	static Width = 240;
+	static Height = 480;
+
 	private portrait: PIXI.Sprite;
 	private frame: PIXI.Sprite;
 	private health: CardStat;

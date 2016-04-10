@@ -31,3 +31,15 @@ export function getRandomEnumExcept<E>(e: any, disallowedValues: any[]): E {
 	}
 	return getRandomEnum<E>(allowedValues);
 }
+
+export function getEnumNames<E>(e: any) {
+	return Object.keys(e).filter(v => isNaN(parseInt(v)));
+}
+
+export function getEnumValues<E>(e: any) {
+	return Object.keys(e).map(v => parseInt(v)).filter(v => !isNaN(v));
+}
+
+export function getNamesAndValues<E>(e: any) {
+	return getEnumValues(e).map(v => { return { name: e[v] as string, value: v }; });
+}

@@ -2,15 +2,34 @@
 
 import { Unit } from './unit';
 
-export class Party {
-	units: [ Unit, Unit, Unit, Unit ];
-	get frontLeft () { return this.units[0]; }
-	get frontRight() { return this.units[1]; }
-	get backLeft  () { return this.units[2]; }
-	get backRight () { return this.units[3]; }
+export enum UnitPartyPosition {
+	FrontLeft,
+	FrontRight,
+	BackLeft,
+	BackRight
+}
 
-	set frontLeft (value) { this.units[0] = value; }
-	set frontRight(value) { this.units[1] = value; }
-	set backLeft  (value) { this.units[2] = value; }
-	set backRight (value) { this.units[3] = value; }
+export interface PartyUnits extends Array<Unit> {
+	0: Unit;
+	1: Unit;
+	2: Unit;
+	3: Unit;
+}
+
+export class Party {
+	constructor(private units: PartyUnits) {}
+
+	unitAtPosition(position: UnitPartyPosition) {
+		return this.units[position] || null;
+	}
+
+	get frontLeft () { return this.units[UnitPartyPosition.FrontLeft]; }
+	get frontRight() { return this.units[UnitPartyPosition.FrontRight]; }
+	get backLeft  () { return this.units[UnitPartyPosition.BackLeft]; }
+	get backRight () { return this.units[UnitPartyPosition.BackRight]; }
+
+	set frontLeft (value) { this.units[UnitPartyPosition.FrontLeft] = value; }
+	set frontRight(value) { this.units[UnitPartyPosition.FrontRight] = value; }
+	set backLeft  (value) { this.units[UnitPartyPosition.BackLeft] = value; }
+	set backRight (value) { this.units[UnitPartyPosition.BackRight] = value; }
 }

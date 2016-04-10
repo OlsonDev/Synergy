@@ -28,6 +28,8 @@ export class Board extends PIXI.Container {
 		this.createTiles();
 
 		this.highlighter = new Highlighter();
+		// Set within board so other components can position based on board bounds
+		this.highlighter.position.set(this.highlighter.width, this.highlighter.height);
 		this.addChild(this.highlighter);
 
 		this.createGamePieces();

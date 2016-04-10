@@ -9,7 +9,7 @@ export enum UnitColor {
 	Brown
 }
 
-export interface UnitColors extends Array<number | string> {
+export interface UnitColors extends Array<number> {
 	0: UnitColor;
 	1: UnitColor;
 }
