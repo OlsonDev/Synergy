@@ -1,0 +1,50 @@
+# Examples
+- Attack selected unit
+- Attack random unit
+- Attack, bypassing armor
+- Randomly split damage to all
+- Deal range of damage, e.g. 3-[6+Magic]
+- Bonus damage to adjacent enemies
+- Attack front/back/opposite line (potentially no target(s))
+- Destroy armor
+- Jumble board
+- New board
+- Remove/destroy row/column; destroy => gain effects
+- Explode = destroy 3x3 grid
+- Destroy gem and gems to both sides
+- Destroy gem and gems above/below
+- Remove/destroy/explode random gems / random gems of certain color
+- Remove/destroy row/column by selecting gem of certain color (potentially no targets)
+- Extra turn
+- Heal self/party to max health
+- Buff self/party health+max health/armor+max armor/power/magic/random
+- Spawn level N unit
+- Create N gems of X color/ally color/enemy color
+- Convert all/N gems to different color
+- Boost effects by removing gems
+- Buff self/party on other effect results in death
+- Target healthiest/weakest
+- Deal extra damage if self damaged/undamaged
+- Boost by target/self/party armor/health/attack/magic
+- Boost by missing target/self/party armor/health/attack/magic
+- Boost if status effect applied
+- Gain currency
+- Deal extra damage based on target mana/tag
+- Boost effect based on target mana/tag
+- Devour an enemy/ally: Heal, add all their armor, health, and attack, magic to self.
+- Silence
+- Poison
+- Burn
+- Freeze
+- Entangle
+- Hunter's Mark
+- Death Mark
+- Cleanse
+- Random status effect
+- Drain mana
+- Charm
+- Boost ratios
+- 10% (or whatever) chance to X
+- Steal health/armor/power/magic
+- Gain mana back if enemy dies
+- Boost effect if wounded
