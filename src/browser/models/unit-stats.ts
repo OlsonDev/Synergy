@@ -1,18 +1,21 @@
 'use strict';
 
 export enum UnitStatType {
-	Health,
-	Armor,
-	Power,
-	Magic
+	  None   = 0
+	, Health = 1 << 0
+	, Armor  = 1 << 1
+	, Power  = 1 << 2
+	, Magic  = 1 << 3
 }
-
 export enum StatTarget {
-	Health,
-	Armor,
-	Power,
-	Magic,
-	ArmorThenHealth
+	  None            = 0
+	, Health          = 1 << 0
+	, Armor           = 1 << 1
+	, Power           = 1 << 2
+	, Magic           = 1 << 3
+	, ArmorThenHealth = 1 << 4
+
+	, All = Health | Armor | Power | Magic
 }
 
 export class UnitStats {
