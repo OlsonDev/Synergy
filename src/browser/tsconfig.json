@@ -8,6 +8,7 @@
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
+		"preserveConstEnums": true,
 		"sourceMap": false,
 		"outDir": "../../dist/browser",
 		"removeComments": false
