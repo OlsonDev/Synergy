@@ -27,7 +27,7 @@
 	},
 	"scripts": {
 		"start": "npm run build && npm run open",
-		"build": "concurrently -p \"[{index}:{name}]\" -n \"main,server,browser,sass\" -c \"bgBlue.bold,bgYellow.bold,bgGreen.bold,bgMagenta.bold\" \"npm run build-main\" \"npm run build-server\" \"npm run build-browser\" \"npm run sass-watch\"",
+		"build": "concurrently -p \"[{index}:{name}]\" -n \"main,server,browser,sass\" -c \"bgBlue.bold,bgYellow.bold,bgGreen.bold,bgMagenta.bold\" \"npm run build-main\" \"npm run build-server\" \"npm run build-browser\" \"npm run sass\"",
 		"build-main": "cd src/main && tsc -w",
 		"build-server": "cd src/server && tsc -w",
 		"build-browser": "cd src/browser && tsc -w",
