@@ -15,15 +15,15 @@
 	"author": "Josh Olson",
 	"license": "UNLICENSED",
 	"dependencies": {
-		"fs-extra": "^0.26.7",
+		"fs-extra": "^0.27.0",
 		"keyboardjs": "^2.2.0",
-		"systemjs": "^0.19.24"
+		"systemjs": "^0.19.26"
 	},
 	"devDependencies": {
-		"browser-sync": "^2.11.2",
+		"browser-sync": "^2.11.3",
 		"concurrently": "OlsonDev/concurrently#master",
 		"connect-logger": "0.0.1",
-		"electron-prebuilt": "^0.37.2"
+		"electron-prebuilt": "^0.37.6"
 	},
 	"scripts": {
 		"start": "npm run build && npm run open",
