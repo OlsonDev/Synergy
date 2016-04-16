@@ -5,24 +5,27 @@ import { InstructionSet } from './instructions/instruction';
 export class Ability {
 	private constructor(
 		private code: string,
-		private instructions: InstructionSet,
-		private aiChanceInstructions: InstructionSet
+		private executeFn: Function,
+		private aiChanceFn: Function
 	) {}
 
 	static getByCode(code: string) {
-		const instructions = Ability.getInstructions(code);
-		const aiChanceInstructions = Ability.getAiChanceInstructions(code);
-		const ability = new Ability(code, instructions, aiChanceInstructions);
-		return ability;
+		const executeFn = Ability.getExecuteFn(code);
+		const aiChanceFn = Ability.getAiChanceFn(code);
+		return new Ability(code, executeFn, aiChanceFn);
 	}
 
-	private static getInstructions(code: string) {
+	private static getExecuteFn(code: string) {
 		const source = '';
-		return InstructionSet.Parse(source);
+		return new Function(source);
 	}
 
-	private static getAiChanceInstructions(code: string) {
+	private static getAiChanceFn(code: string) {
 		const source = '';
-		return InstructionSet.Parse(source);
+		return new Function(source);
 	}
+}
+
+export class AbilityContext {
+
 }

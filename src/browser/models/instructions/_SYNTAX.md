@@ -1,3 +1,13 @@
+```js
+return this
+	.target(enemy.all)
+	.addMagic()
+	.add(5)
+	.withBoost(1, 3)
+	.attack()
+;
+```
+
 # Syntax
 ValueSet MagicPlus 0
 
