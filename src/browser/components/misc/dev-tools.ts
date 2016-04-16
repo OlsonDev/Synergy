@@ -1,11 +1,12 @@
 'use strict';
 import { Keyboard } from './input';
+import { KeyEvent } from 'keyboardjs/index';
 
 function _setup() {
 	const electron = require('electron');
 	const win = electron.remote.getCurrentWindow();
 
-	Keyboard.bind(['f12'], (e: keyboardjs.KeyEvent) => {
+	Keyboard.bind(['f12'], (e: typeof KeyEvent) => {
 		win.webContents.openDevTools();
 	});
 

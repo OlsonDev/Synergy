@@ -1,7 +1,7 @@
 {
 	"ambientDependencies": {
 		"electron": "github:typed-typings/env-electron#8c09905e0adca19409654e2fd90bef629c6a9a59",
-		"node": "registry:dt/node#4.0.0+20160330064709",
+		"node": "registry:dt/node#4.0.0+20160412142033",
 		"pixi.js": "registry:dt/pixi.js#3.0.9+20160404013751"
 	},
 	"dependencies": {

@@ -1,5 +1,6 @@
 'use strict';
 import { Keyboard } from './input';
+import { KeyEvent } from 'keyboardjs/index';
 
 function _setup() {
 	const electron = require('electron');
@@ -26,7 +27,7 @@ function _setup() {
 	win.on('maximize', updateButtons);
 	updateButtons();
 
-	Keyboard.keydownOnce(['esc', 'alt'], (e: keyboardjs.KeyEvent) => {
+	Keyboard.keydownOnce(['esc', 'alt'], (e: typeof KeyEvent) => {
 		document.body.classList.toggle('paused');
 	});
 }

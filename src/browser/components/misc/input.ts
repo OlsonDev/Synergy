@@ -1,24 +1,22 @@
 'use strict';
 
-import kbjs = require('keyboardjs/index');
+import keyboard, { Keyboard, EventHandler, KeyEvent } from 'keyboardjs/index';
 
-interface ExtendedKeyboard extends kbjs.Keyboard {
-	keydownOnce(keys: string | string[], callback: kbjs.EventHandler): void;
+class ExtendedKeyboard extends Keyboard {
+	keydownOnce(keys: string | string[], callback: typeof EventHandler)  {
+		let keyPressed = false;
+		return this.bind(keys
+			, (e: typeof KeyEvent) => {
+				if (keyPressed) return;
+				keyPressed = true;
+				callback(e);
+			}
+			, () => keyPressed = false
+		);
+	}
 }
 
-const keyboard = kbjs.default as any as ExtendedKeyboard;
+const extended = keyboard as any as ExtendedKeyboard;
+extended.keydownOnce = ExtendedKeyboard.prototype.keydownOnce;
 
-keyboard.keydownOnce = function(keys: string | string[], callback: kbjs.EventHandler) {
-	let keyPressed = false;
-	return this.bind(keys
-		, (e) => {
-			if (keyPressed) return;
-			keyPressed = true;
-			callback(e);
-		}
-		, () => keyPressed = false
-	);
-};
-
-
-export { keyboard as Keyboard };
+export { extended as Keyboard };
